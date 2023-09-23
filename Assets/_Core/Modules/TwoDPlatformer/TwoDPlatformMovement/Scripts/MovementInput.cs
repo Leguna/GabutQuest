@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Events;
 
-namespace TwoDPlatformMovement.Scripts
+namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
 {
     public class MovementInput
     {

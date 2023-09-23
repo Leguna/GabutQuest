@@ -14,6 +14,7 @@ namespace Main
     public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         public LoadingManager LoadingManager { get; private set; }
+        public LoginController LoginController { get; private set; }
 
         private async void Start()
         {
@@ -53,6 +54,7 @@ namespace Main
             await SceneManager.LoadSceneAsync(SceneNameConstant.Game, LoadSceneMode.Additive);
             await SceneManager.UnloadSceneAsync(SceneNameConstant.Login);
             Debug.Log("StartGame: UnloadSceneAsync");
+            
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace TwoDPlatformMovement.Scripts
+namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
 {
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
@@ -18,12 +19,12 @@ namespace TwoDPlatformMovement.Scripts
         }
 
         // Inspector fields
-        [SerializeField] private float _walkSpeed = 5f;
-        [SerializeField] private float _runSpeed = 10f;
-        [SerializeField] private float _jumpForce = 10f;
-        [SerializeField] private float _dashForce = 10f;
-        [SerializeField] private float _dashDuration = 0.2f;
-        [SerializeField] private float _jumpMoveSpeedMultiplier = 1f;
+        [SerializeField] private float walkSpeed = 5f;
+        [SerializeField] private float runSpeed = 10f;
+        [SerializeField] private float jumpForce = 10f;
+        [SerializeField] private float dashForce = 10f;
+        [SerializeField] private float dashDuration = 0.2f;
+        [SerializeField] private float jumpMoveSpeedMultiplier = 1f;
 
         // Input
         private readonly MovementInput _movementInput = new();
@@ -54,7 +55,7 @@ namespace TwoDPlatformMovement.Scripts
             _movementInput.OnMoveHorizontal += Walk;
             _movementInput.OnRun += Run;
             _movementInput.OnJump += Jump;
-            _movementInput.OnDash += () => Dash(_dashForce);
+            _movementInput.OnDash += () => Dash(dashForce);
         }
 
         public void FixedUpdate()
@@ -105,10 +106,11 @@ namespace TwoDPlatformMovement.Scripts
         {
             var boxCastSize = new Vector2(0.5f, 0.5f);
             var distance = 0.5f;
-            var hit = Physics2D.BoxCast(transform.position, boxCastSize, 0f, Vector2.down, distance,
+            var position = transform.position;
+            var hit = Physics2D.BoxCast(position, boxCastSize, 0f, Vector2.down, distance,
                 LayerMask.GetMask("Ground"));
             // Draw box cast
-            Debug.DrawRay(transform.position, Vector2.down * distance, Color.red);
+            Debug.DrawRay(position, Vector2.down * distance, Color.red);
             return hit.collider != null && _rigidbody2D.velocity.y <= 0.1f && _rigidbody2D.velocity.y >= -0.1;
         }
 
@@ -117,8 +119,8 @@ namespace TwoDPlatformMovement.Scripts
             if (!isOverrideCanMove) return;
             if (!CanMove) return;
 
-            var moveSpeed = _isRunning ? _runSpeed : _walkSpeed;
-            if (_movementState == MovementState.Jumping) moveSpeed *= _jumpMoveSpeedMultiplier;
+            var moveSpeed = _isRunning ? runSpeed : walkSpeed;
+            if (_movementState == MovementState.Jumping) moveSpeed *= jumpMoveSpeedMultiplier;
 
             var moveVelocity =
                 new Vector2(_horizontalInput * moveSpeed, _rigidbody2D.velocity.y);
@@ -154,7 +156,7 @@ namespace TwoDPlatformMovement.Scripts
             if (!CanJump)
                 return;
 
-            _rigidbody2D.AddForce(new Vector2(0f, _jumpForce), ForceMode2D.Impulse);
+            _rigidbody2D.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             _movementState = MovementState.Jumping;
         }
 
@@ -165,7 +167,7 @@ namespace TwoDPlatformMovement.Scripts
 
             _rigidbody2D.AddForce(new Vector2(_isFacingRight ? dashForce : -dashForce, 0f), ForceMode2D.Impulse);
             _movementState = MovementState.Dashing;
-            Invoke(nameof(StopMovement), _dashDuration);
+            Invoke(nameof(StopMovement), dashDuration);
         }
 
         private void StopMovement()

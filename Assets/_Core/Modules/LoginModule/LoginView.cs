@@ -53,12 +53,20 @@ namespace LoginModule
             anonymousSignInButton.onClick.AddListener(() => { SignInAnonymously?.Invoke(); });
             signInButton.onClick.AddListener(() =>
             {
+                if (!ValidateEmail(emailInputField.text)) return;
                 SignInWithEmail?.Invoke(emailInputField.text, passwordInputField.text);
             });
         }
 
-        public void SetErrorText(string errorText)
+        private void SetErrorText(string errorText)
         {
+            if (string.IsNullOrEmpty(errorText))
+            {
+                signInErrorText.gameObject.SetActive(false);
+                return;
+            }
+
+            signInErrorText.gameObject.SetActive(true);
             signInErrorText.text = errorText;
         }
 
@@ -68,29 +76,17 @@ namespace LoginModule
             base.Show();
         }
 
-        public void EnableSignInButton(bool enable)
+        private bool ValidateEmail(string email)
         {
-            signInButton.interactable = enable;
-        }
+            if (string.IsNullOrEmpty(email))
+            {
+                SetErrorText("Email cannot be empty");
+                return false;
+            }
 
-        private void OnSignInWithEmail(string email, string password)
-        {
-            SignInWithEmail?.Invoke(email, password);
-        }
-
-        private void OnSignInAnonymously()
-        {
-            SignInAnonymously?.Invoke();
-        }
-
-        private void OnSignInWithGoogle()
-        {
-            SignInWithGoogle?.Invoke();
-        }
-
-        private void OnDontHaveAccount()
-        {
-            DontHaveAccount?.Invoke();
+            if (email.Contains("@")) return true;
+            SetErrorText("Email must contain @");
+            return false;
         }
     }
 }
