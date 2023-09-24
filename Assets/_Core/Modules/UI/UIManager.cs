@@ -13,6 +13,8 @@ namespace UI
         private EventSystem _eventSystem;
         private UIInputAction mInputAction;
 
+        private bool shiftPressed;
+
         private void Awake()
         {
             mInputAction = new UIInputAction();
@@ -20,6 +22,8 @@ namespace UI
             mInputAction.UI.Back.performed += _ => onBack?.Invoke();
             mInputAction.UI.NextInputSelected.performed += _ => NextUI();
             mInputAction.UI.PreviousInputSelected.performed += _ => PrevUI();
+            mInputAction.UI.Shift.performed += _ => shiftPressed = true;
+            mInputAction.UI.Shift.canceled += _ => shiftPressed = false;
         }
 
         private void OnEnable()
@@ -34,6 +38,7 @@ namespace UI
 
         private void NextUI()
         {
+            if (shiftPressed) return;
             _eventSystem = EventSystem.current;
             if (_eventSystem.currentSelectedGameObject == null) return;
             if (_eventSystem.currentSelectedGameObject.GetComponent<Selectable>() == null) return;

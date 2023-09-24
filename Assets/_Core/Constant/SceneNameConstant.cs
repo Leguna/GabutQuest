@@ -2,10 +2,15 @@
 {
     public static class SceneNameConstant
     {
-        public const string Splash = "SplashScreen";
-        public const string Login = "LoginScreen";
-        public const string Game = "GameScreen";
-        public const string Loading = "LoadingScreen";
-        public const string Console = "ConsoleScreen";
+        // List of scenes in the game indexed by SceneName
+        public enum SceneName
+        {
+            GameRunner = 0,
+            SplashScreen = 1,
+            LoginScreen = 2,
+            GameScreen = 3,
+            LoadingScreen = 4,
+            ConsoleScreen = 5,
+        }
     }
 }

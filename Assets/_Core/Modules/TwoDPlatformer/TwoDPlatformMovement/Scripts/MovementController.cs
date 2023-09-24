@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
 {
@@ -7,17 +6,6 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
     [RequireComponent(typeof(Rigidbody2D))]
     public class MovementController : MonoBehaviour
     {
-        public enum MovementState
-        {
-            Idle,
-            Walking,
-            Running,
-            Dashing,
-            Jumping,
-            Falling,
-            Landing
-        }
-
         // Inspector fields
         [SerializeField] private float walkSpeed = 5f;
         [SerializeField] private float runSpeed = 10f;
@@ -25,6 +13,9 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         [SerializeField] private float dashForce = 10f;
         [SerializeField] private float dashDuration = 0.2f;
         [SerializeField] private float jumpMoveSpeedMultiplier = 1f;
+
+        // Animation
+        [SerializeField] private MovementAnimationController movementAnimationController;
 
         // Input
         private readonly MovementInput _movementInput = new();
@@ -34,11 +25,23 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         private bool _isRunning;
 
         // Private fields
-        private MovementState _movementState;
+        private MovementState _movementState = MovementState.Idle;
+
+        private MovementState MovementState
+        {
+            get => _movementState;
+            set
+            {
+                _movementState = value;
+                UpdateAnimation();
+            }
+        }
 
         // Components
+
         private Rigidbody2D _rigidbody2D;
-        private readonly bool isOverrideCanMove = false;
+
+        public bool isOverrideCanMove = true;
 
         private bool CanJump => _movementState is MovementState.Idle or MovementState.Walking
             or MovementState.Running;
@@ -55,7 +58,12 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             _movementInput.OnMoveHorizontal += Walk;
             _movementInput.OnRun += Run;
             _movementInput.OnJump += Jump;
-            _movementInput.OnDash += () => Dash(dashForce);
+            _movementInput.OnDash += Dash;
+        }
+
+        private void UpdateAnimation()
+        {
+            movementAnimationController.MovementState = _movementState;
         }
 
         public void FixedUpdate()
@@ -76,14 +84,14 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
                 }
                 else
                 {
-                    _movementState = MovementState.Landing;
+                    MovementState = MovementState.Landing;
                     return;
                 }
             }
 
             if (_rigidbody2D.velocity.y < 0f && !IsLanding() && _movementState != MovementState.Falling)
             {
-                _movementState = MovementState.Falling;
+                MovementState = MovementState.Falling;
                 return;
             }
 
@@ -92,13 +100,13 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
 
             if (_horizontalInput != 0 && IsLanding())
             {
-                _movementState = _isRunning ? MovementState.Running : MovementState.Walking;
+                MovementState = _isRunning ? MovementState.Running : MovementState.Walking;
                 return;
             }
 
             if (_movementState != MovementState.Idle && IsLanding())
             {
-                _movementState = MovementState.Idle;
+                MovementState = MovementState.Idle;
             }
         }
 
@@ -108,10 +116,12 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             var distance = 0.5f;
             var position = transform.position;
             var hit = Physics2D.BoxCast(position, boxCastSize, 0f, Vector2.down, distance,
-                LayerMask.GetMask("Ground"));
-            // Draw box cast
+                LayerMask.GetMask($"Ground"));
+
+            // Raycast for getting the ground layer
             Debug.DrawRay(position, Vector2.down * distance, Color.red);
-            return hit.collider != null && _rigidbody2D.velocity.y <= 0.1f && _rigidbody2D.velocity.y >= -0.1;
+            var velocity = _rigidbody2D.velocity;
+            return !hit.collider && velocity.y <= 0.1f && velocity.y >= -0.1;
         }
 
         private void Move()
@@ -157,28 +167,23 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
                 return;
 
             _rigidbody2D.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            _movementState = MovementState.Jumping;
+            MovementState = MovementState.Jumping;
         }
 
-        private void Dash(float dashForce)
+        private void Dash()
         {
             if (!CanDash)
                 return;
 
             _rigidbody2D.AddForce(new Vector2(_isFacingRight ? dashForce : -dashForce, 0f), ForceMode2D.Impulse);
-            _movementState = MovementState.Dashing;
+            MovementState = MovementState.Dashing;
             Invoke(nameof(StopMovement), dashDuration);
         }
 
         private void StopMovement()
         {
-            // _rigidbody2D.velocity = Vector2.zero;
-            _movementState = MovementState.Idle;
+            MovementState = MovementState.Idle;
         }
 
-        public MovementState GetMovementState()
-        {
-            return _movementState;
-        }
     }
 }

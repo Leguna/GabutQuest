@@ -4,15 +4,10 @@ namespace Main
 {
     public class FlowGame : MonoBehaviour
     {
-        public enum GameState
+       
+        public void Init()
         {
-            Splash,
-            Loading,
-            MainMenu,
-            InGame,
-            Cinematic,
-            Pause,
-            None
+            Debug.Log("FlowGame.Init");
         }
     }
 }
