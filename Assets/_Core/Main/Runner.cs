@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Constant;
+using CustomCursor;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using LoadingModule;
@@ -15,6 +16,8 @@ namespace Main
         public LoadingManager LoadingManager { get; private set; }
         public LoginController LoginController { get; private set; }
 
+        [SerializeField] private Texture2D cursorTexture;
+
         private async void Start()
         {
             await Init();
@@ -22,8 +25,13 @@ namespace Main
 
         private async Task Init()
         {
+            // Load Loading Scene
             await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
             LoadingManager = FindObjectOfType<LoadingManager>();
+
+            // Set Cursor
+            var cursor = Instantiate(new GameObject("Cursor"), transform).AddComponent<CursorManager>();
+            cursor.Init(cursorTexture);
 
             await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.SplashScreen, LoadSceneMode.Additive);
             await Task.Delay(GameConstant.SplashScreenDelayInSecond * 2000);

@@ -24,7 +24,6 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
 
         private void UpdateAnimation()
         {
-            Debug.Log($"UpdateAnimation: {_movementState}");
             _animator.SetInteger(StateMovement, (int)_movementState);
         }
     }
