@@ -25,18 +25,22 @@ namespace Main
 
         private async Task Init()
         {
+            // Set Cursor
+            var cursor = gameObject.AddComponent<CursorManager>();
+            cursor.Init(cursorTexture);
+            cursor.SetVisible(false);
+
             // Load Loading Scene
             await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
             LoadingManager = FindObjectOfType<LoadingManager>();
 
-            // Set Cursor
-            var cursor = Instantiate(new GameObject("Cursor"), transform).AddComponent<CursorManager>();
-            cursor.Init(cursorTexture);
-
+            // Load Login Scene
             await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.SplashScreen, LoadSceneMode.Additive);
             await Task.Delay(GameConstant.SplashScreenDelayInSecond * 2000);
             await LoadingManager.LoadScene(SceneNameConstant.SceneName.LoginScreen, LoadingManager.LoadingType.None);
             await LoadingManager.UnloadScene(SceneNameConstant.SceneName.SplashScreen, LoadingManager.LoadingType.None);
+
+            cursor.SetVisible(true);
 
             // Search for the LoginController in the Login scene
             var loginController = FindObjectOfType<LoginController>();

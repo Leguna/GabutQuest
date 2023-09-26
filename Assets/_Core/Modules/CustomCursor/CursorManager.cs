@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CustomCursor
 {
@@ -6,35 +7,57 @@ namespace CustomCursor
     {
         [SerializeField] private Texture2D cursorTexture;
         [SerializeField] private Vector2 hotspot = Vector2.zero;
-        [SerializeField] private bool hideCursor;
-        [SerializeField] private bool lockCursor;
+        [SerializeField] private ParticleSystem particleCursor;
 
-        public bool IsForceLocked { get; set; }
+        private bool isClick;
+        private bool isVisible;
+
+        private bool IsForceLocked { get; set; }
+
+        public void SetIsForceLocked(bool value)
+        {
+            IsForceLocked = value;
+            LockCursor(value);
+        }
 
         private CursorInput _cursorInput;
-
-        private void Start()
-        {
-            // Init(cursorTexture);
-        }
 
         public void Init(Texture2D newCursorTexture, float size = 1f)
         {
             _cursorInput = new CursorInput();
-            // var newTexture = TextureScaler.scaled(newCursorTexture, (int)(newCursorTexture.width * size), (int)(newCursorTexture.height * size));
-            // newCursorTexture.Reinitialize((int)(newCursorTexture.width * size), (int)(newCursorTexture.height * size));
+            _cursorInput.Enable();
+            SetVisible(isVisible);
             SetCursor(newCursorTexture);
             _cursorInput.Cursor.Unlock.performed += _ => LockCursor(false);
             _cursorInput.Cursor.Unlock.canceled += _ => LockCursor(true);
+            _cursorInput.Cursor.Click.performed += OnClick;
+            _cursorInput.Cursor.Click.canceled += _ => OnRelease();
+        }
+
+        private void Update()
+        {
+            if (!isClick) return;
+            if (!isVisible) return;
+
+            // Move particle cursor
+            if (Camera.main != null)
+            {
+                var mousePosition = Mouse.current.position.ReadValue();
+                var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+                worldPosition.z = 0f;
+                particleCursor.transform.position = worldPosition;
+            }
         }
 
         private void LockCursor(bool isLock)
         {
-            if (IsForceLocked) return;
+            if (!IsForceLocked) return;
+
+            SetVisible(!isLock);
             Cursor.lockState = isLock ? CursorLockMode.Locked : CursorLockMode.None;
         }
 
-        public void SetCursor(Texture2D newCursorTexture, bool isCenter = false)
+        private void SetCursor(Texture2D newCursorTexture, bool isCenter = false)
         {
             if (isCenter)
             {
@@ -43,6 +66,36 @@ namespace CustomCursor
 
             cursorTexture = newCursorTexture;
             Cursor.SetCursor(cursorTexture, hotspot, CursorMode.ForceSoftware);
+        }
+
+        public void SpawnParticleCursor(ParticleSystem cursorParticle)
+        {
+            particleCursor = cursorParticle;
+            particleCursor.Stop();
+        }
+
+        public void OnClick(InputAction.CallbackContext callbackContext)
+        {
+            isClick = true;
+            if (!isVisible) return;
+            particleCursor.Play();
+        }
+
+        private void OnRelease()
+        {
+            isClick = false;
+            particleCursor.Stop();
+        }
+
+        public void SetVisible(bool newIsVisible)
+        {
+            isVisible = newIsVisible;
+            Cursor.visible = newIsVisible;
+        }
+
+        private void OnDisable()
+        {
+            _cursorInput.Disable();
         }
     }
 }

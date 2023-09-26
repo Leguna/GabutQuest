@@ -193,7 +193,7 @@ namespace LoginModule
             }
         }
 
-        public void ChangeViewState(LoginViewState state)
+        private void ChangeViewState(LoginViewState state)
         {
             _state = state;
             if (state == LoginViewState.Waiting) return;

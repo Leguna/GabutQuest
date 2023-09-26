@@ -44,6 +44,15 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee30019d-f68a-4921-b078-1ec9b45684da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +132,17 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
                     ""action"": ""Unlock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d180135-3c1d-4d69-8b2e-68a951f003d0"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -133,6 +153,7 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
         m_Cursor = asset.FindActionMap("Cursor", throwIfNotFound: true);
         m_Cursor_Move = m_Cursor.FindAction("Move", throwIfNotFound: true);
         m_Cursor_Unlock = m_Cursor.FindAction("Unlock", throwIfNotFound: true);
+        m_Cursor_Click = m_Cursor.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,12 +217,14 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
     private List<ICursorActions> m_CursorActionsCallbackInterfaces = new List<ICursorActions>();
     private readonly InputAction m_Cursor_Move;
     private readonly InputAction m_Cursor_Unlock;
+    private readonly InputAction m_Cursor_Click;
     public struct CursorActions
     {
         private @CursorInput m_Wrapper;
         public CursorActions(@CursorInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Cursor_Move;
         public InputAction @Unlock => m_Wrapper.m_Cursor_Unlock;
+        public InputAction @Click => m_Wrapper.m_Cursor_Click;
         public InputActionMap Get() { return m_Wrapper.m_Cursor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -217,6 +240,9 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
             @Unlock.started += instance.OnUnlock;
             @Unlock.performed += instance.OnUnlock;
             @Unlock.canceled += instance.OnUnlock;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
         }
 
         private void UnregisterCallbacks(ICursorActions instance)
@@ -227,6 +253,9 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
             @Unlock.started -= instance.OnUnlock;
             @Unlock.performed -= instance.OnUnlock;
             @Unlock.canceled -= instance.OnUnlock;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
         }
 
         public void RemoveCallbacks(ICursorActions instance)
@@ -248,5 +277,6 @@ public partial class @CursorInput: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnUnlock(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
 }
