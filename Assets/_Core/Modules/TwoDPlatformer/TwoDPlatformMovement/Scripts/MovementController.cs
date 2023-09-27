@@ -14,6 +14,8 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         [SerializeField] private float dashDuration = 0.2f;
         [SerializeField] private float jumpMoveSpeedMultiplier = 1f;
 
+        [SerializeField] private ParticleSystem walkParticle;
+
         // Animation
         [SerializeField] private MovementAnimationController movementAnimationController;
 
@@ -76,7 +78,7 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         {
             if (_movementState == MovementState.Dashing) return;
 
-            if (IsLanding())
+            if (IsGrounded())
             {
                 if (_movementState is MovementState.Landing or MovementState.Walking or MovementState.Running
                     or MovementState.Idle)
@@ -89,7 +91,7 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
                 }
             }
 
-            if (_rigidbody2D.velocity.y < 0f && !IsLanding() && _movementState != MovementState.Falling)
+            if (_rigidbody2D.velocity.y < 0f && !IsGrounded() && _movementState != MovementState.Falling)
             {
                 MovementState = MovementState.Falling;
                 return;
@@ -98,19 +100,19 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             if (_movementState == MovementState.Jumping)
                 return;
 
-            if (_horizontalInput != 0 && IsLanding())
+            if (_horizontalInput != 0 && IsGrounded())
             {
                 MovementState = _isRunning ? MovementState.Running : MovementState.Walking;
                 return;
             }
 
-            if (_movementState != MovementState.Idle && IsLanding())
+            if (_movementState != MovementState.Idle && IsGrounded())
             {
                 MovementState = MovementState.Idle;
             }
         }
 
-        private bool IsLanding()
+        private bool IsGrounded()
         {
             var boxCastSize = new Vector2(0.5f, 0.5f);
             var distance = 0.5f;
@@ -129,6 +131,10 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             if (!isOverrideCanMove) return;
             if (!CanMove) return;
 
+            // Particle if particle is exist
+            if (IsGrounded() && _horizontalInput != 0) walkParticle.Play();
+
+            // Movement
             var moveSpeed = _isRunning ? runSpeed : walkSpeed;
             if (_movementState == MovementState.Jumping) moveSpeed *= jumpMoveSpeedMultiplier;
 
@@ -184,6 +190,5 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         {
             MovementState = MovementState.Idle;
         }
-
     }
 }
