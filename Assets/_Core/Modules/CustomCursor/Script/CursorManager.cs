@@ -5,9 +5,9 @@ namespace CustomCursor
 {
     public class CursorManager : MonoBehaviour
     {
-        [SerializeField] private Texture2D cursorTexture;
-        [SerializeField] private Vector2 hotspot = Vector2.zero;
-        [SerializeField] private ParticleSystem particleCursor;
+        private Texture2D cursorTexture;
+        private Vector2 hotspot = Vector2.zero;
+        private ParticleSystem particleCursor;
 
         private bool isClick;
         private bool isVisible;
@@ -53,6 +53,7 @@ namespace CustomCursor
         {
             if (!IsForceLocked) return;
 
+            if (isLock) particleCursor.Stop();
             SetVisible(!isLock);
             Cursor.lockState = isLock ? CursorLockMode.Locked : CursorLockMode.None;
         }
