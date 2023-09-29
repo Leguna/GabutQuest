@@ -118,12 +118,11 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             var distance = 0.5f;
             var position = transform.position;
             var hit = Physics2D.BoxCast(position, boxCastSize, 0f, Vector2.down, distance,
-                LayerMask.GetMask($"Ground"));
-
+                LayerMask.GetMask("Ground"));
             // Raycast for getting the ground layer
             Debug.DrawRay(position, Vector2.down * distance, Color.red);
             var velocity = _rigidbody2D.velocity;
-            return !hit.collider && velocity.y <= 0.1f && velocity.y >= -0.1;
+            return hit.collider && velocity.y <= 0.1f && velocity.y >= -0.1;
         }
 
         private void Move()

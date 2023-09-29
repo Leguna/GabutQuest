@@ -6,14 +6,38 @@ namespace DamageSystem
     [Serializable]
     public class WeaponController : MonoBehaviour, IWeaponController
     {
+        [SerializeField] private GameObject weaponHandler;
+        [SerializeField] private Animator animator;
+        private Collider2D _collider2D;
         public int Damage { get; private set; }
         public float Delay { get; set; }
         public float LastAttackTime { get; private set; }
+        private static readonly int AttackKey = Animator.StringToHash("Attack");
 
-        public WeaponController(int damage)
+        private void Start()
+        {
+            TryGetComponent(out animator);
+            TryGetComponent(out _collider2D);
+            Init(10);
+        }
+
+        public void Init(int damage)
         {
             Damage = damage;
         }
+
+        public void FireAttack()
+        {
+            LastAttackTime = Time.time;
+            _collider2D.enabled = true;
+            animator.SetTrigger(AttackKey);
+        }
+
+        private void FinishAnimation()
+        {
+            _collider2D.enabled = false;
+        }
+
 
         public void Attack(IDamageable target)
         {
@@ -23,10 +47,10 @@ namespace DamageSystem
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out IDamageable damageable))
-            {
-                Attack(damageable);
-            }
+            Debug.Log(Damage);
+            if (!other.TryGetComponent(out IDamageable damageable)) return;
+            if (other.gameObject == weaponHandler) return;
+            Attack(damageable);
         }
     }
 }

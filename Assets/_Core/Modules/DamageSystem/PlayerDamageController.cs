@@ -5,23 +5,22 @@ namespace DamageSystem
 {
     public class PlayerDamageController : MonoBehaviour
     {
-        [SerializeField] private HealthController _healthController;
-        [SerializeField] private WeaponController _weaponController;
+        [SerializeField] private HealthController healthController;
+        [SerializeField] private WeaponController weaponController;
         private PlayerDamageInputAction _playerDamageInputAction;
 
         private Animator _animator;
 
         private void Awake()
         {
-            _healthController = new HealthController(100);
-            _weaponController = new WeaponController(10);
-
-            _healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
+            healthController = new HealthController(100);
+            healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
+            TryGetComponent(out _animator);
         }
 
         private void OnAttack(InputAction.CallbackContext obj)
         {
-            
+            weaponController.FireAttack();
         }
 
         private void OnDamageTaken(int obj)
