@@ -15,8 +15,10 @@ namespace Main
     {
         public LoadingManager LoadingManager { get; private set; }
         public LoginController LoginController { get; private set; }
+        private CursorManager _cursor;
 
         [SerializeField] private Texture2D cursorTexture;
+        [SerializeField] private ParticleSystem particleCursor;
 
         private async void Start()
         {
@@ -26,9 +28,9 @@ namespace Main
         private async Task Init()
         {
             // Set Cursor
-            var cursor = gameObject.AddComponent<CursorManager>();
-            cursor.Init(cursorTexture);
-            cursor.SetVisible(false);
+            _cursor = gameObject.AddComponent<CursorManager>();
+            _cursor.Init(cursorTexture, particleCursor);
+            _cursor.SetVisible(false);
 
             // Load Loading Scene
             await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
@@ -40,7 +42,7 @@ namespace Main
             await LoadingManager.LoadScene(SceneNameConstant.SceneName.LoginScreen, LoadingManager.LoadingType.None);
             await LoadingManager.UnloadScene(SceneNameConstant.SceneName.SplashScreen, LoadingManager.LoadingType.None);
 
-            cursor.SetVisible(true);
+            _cursor.SetVisible(true);
 
             // Search for the LoginController in the Login scene
             var loginController = FindObjectOfType<LoginController>();
@@ -56,6 +58,7 @@ namespace Main
         {
             await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
             await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
+            _cursor.SetIsForceLocked(true);
 
             // Search for the GameController in the Game scene
             // TOOD: Add GameController

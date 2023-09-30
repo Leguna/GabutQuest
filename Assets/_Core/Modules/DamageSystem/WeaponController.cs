@@ -16,8 +16,8 @@ namespace DamageSystem
 
         private void Start()
         {
-            TryGetComponent(out animator);
             TryGetComponent(out _collider2D);
+            TryGetComponent(out animator);
             Init(10);
         }
 
@@ -47,9 +47,9 @@ namespace DamageSystem
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log(Damage);
-            if (!other.TryGetComponent(out IDamageable damageable)) return;
             if (other.gameObject == weaponHandler) return;
+            if (!other.TryGetComponent(out IDamageable damageable)) return;
+            Debug.Log( $"OnTriggerEnter2D: {other.gameObject.name}");
             Attack(damageable);
         }
     }

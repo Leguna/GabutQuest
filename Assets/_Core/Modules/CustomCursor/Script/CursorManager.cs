@@ -22,12 +22,13 @@ namespace CustomCursor
 
         private CursorInput _cursorInput;
 
-        public void Init(Texture2D newCursorTexture, float size = 1f)
+        public void Init(Texture2D newCursorTexture, ParticleSystem newParticleSystem, float size = 1f)
         {
             _cursorInput = new CursorInput();
             _cursorInput.Enable();
             SetVisible(isVisible);
             SetCursor(newCursorTexture);
+            particleCursor = newParticleSystem;
             _cursorInput.Cursor.Unlock.performed += _ => LockCursor(false);
             _cursorInput.Cursor.Unlock.canceled += _ => LockCursor(true);
             _cursorInput.Cursor.Click.performed += OnClick;
@@ -85,6 +86,7 @@ namespace CustomCursor
         private void OnRelease()
         {
             isClick = false;
+            if (!isVisible) return;
             particleCursor.Stop();
         }
 

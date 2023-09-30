@@ -10,7 +10,7 @@ namespace CustomCursor
         void Start()
         {
             var cursorManager = FindObjectOfType<CursorManager>();
-            cursorManager.Init(cursorTexture);
+            cursorManager.Init(cursorTexture, particleCursor);
             cursorManager.SpawnParticleCursor(particleCursor);
             cursorManager.SetIsForceLocked(true);
         }
