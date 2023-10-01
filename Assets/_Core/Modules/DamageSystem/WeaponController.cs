@@ -49,7 +49,6 @@ namespace DamageSystem
         {
             if (other.gameObject == weaponHandler) return;
             if (!other.TryGetComponent(out IDamageable damageable)) return;
-            Debug.Log( $"OnTriggerEnter2D: {other.gameObject.name}");
             Attack(damageable);
         }
     }
