@@ -74,3 +74,4 @@ crashlytics-build.properties
 # Firebase
 /[Aa]ssets/GoogleService-Info.plist
 /[Aa]ssets/google-services.json
+PrivateConstant.cs
