@@ -1048,6 +1048,7 @@ MonoBehaviour:
   signInErrorText: {fileID: 1658316201}
   dontHaveAccountText: {fileID: 1040669231}
   anonymousSignInButton: {fileID: 1394434041}
+  googleSignInButton: {fileID: 202851549}
 --- !u!1 &588751619
 GameObject:
   m_ObjectHideFlags: 0

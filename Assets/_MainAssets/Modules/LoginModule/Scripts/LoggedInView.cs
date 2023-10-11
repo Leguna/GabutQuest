@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities.MVC.ViewComponent;
 using Utilities.ViewComponent;
 
 namespace LoginModule

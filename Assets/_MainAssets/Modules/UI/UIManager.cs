@@ -24,6 +24,7 @@ namespace UI
             mInputAction.UI.PreviousInputSelected.performed += _ => PrevUI();
             mInputAction.UI.Shift.performed += _ => shiftPressed = true;
             mInputAction.UI.Shift.canceled += _ => shiftPressed = false;
+            mInputAction.UI.Confirm.performed += _ => Submit();
         }
 
         private void OnEnable()
@@ -53,6 +54,14 @@ namespace UI
             if (_eventSystem.currentSelectedGameObject.GetComponent<Selectable>() == null) return;
             _eventSystem.SetSelectedGameObject(_eventSystem.currentSelectedGameObject.GetComponent<Selectable>()
                 .FindSelectableOnUp().gameObject);
+        }
+
+        private void Submit()
+        {
+            _eventSystem = EventSystem.current;
+            if (_eventSystem.currentSelectedGameObject == null) return;
+            if (_eventSystem.currentSelectedGameObject.GetComponent<Button>() == null) NextUI();
+            _eventSystem.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
         }
     }
 }

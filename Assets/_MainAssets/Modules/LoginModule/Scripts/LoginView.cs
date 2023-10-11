@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utilities.ViewComponent;
+using Utilities.MVC.ViewComponent;
 
 namespace LoginModule
 {
@@ -21,6 +21,7 @@ namespace LoginModule
         [SerializeField] private TMP_Text signInErrorText;
         [SerializeField] private Button dontHaveAccountText;
         [SerializeField] private Button anonymousSignInButton;
+        [SerializeField] private Button googleSignInButton;
 
         private LoginViewState _loginViewState;
 
@@ -49,8 +50,9 @@ namespace LoginModule
             passwordInputField.text = "123123";
             signInErrorText.text = "";
             signInErrorText.gameObject.SetActive(false);
-            dontHaveAccountText.onClick.AddListener(() => { DontHaveAccount?.Invoke(); });
-            anonymousSignInButton.onClick.AddListener(() => { SignInAnonymously?.Invoke(); });
+            dontHaveAccountText.onClick.AddListener(() => DontHaveAccount?.Invoke());
+            anonymousSignInButton.onClick.AddListener(() => SignInAnonymously?.Invoke());
+            googleSignInButton.onClick.AddListener(() => SignInWithGoogle?.Invoke());
             signInButton.onClick.AddListener(() =>
             {
                 if (!ValidateEmail(emailInputField.text)) return;
@@ -91,7 +93,6 @@ namespace LoginModule
 
         private void OnSignInWithGoogle()
         {
-            SignInWithGoogle?.Invoke();
         }
     }
 }

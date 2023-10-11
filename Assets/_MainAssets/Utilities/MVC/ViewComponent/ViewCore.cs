@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Utilities.ModelComponent;
 
-namespace Utilities.ViewComponent
+namespace Utilities.MVC.ViewComponent
 {
     public class ViewCore<TModel> : MonoBehaviour
     {

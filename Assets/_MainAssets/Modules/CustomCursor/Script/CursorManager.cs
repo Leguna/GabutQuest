@@ -31,23 +31,22 @@ namespace CustomCursor
             particleCursor = newParticleSystem;
             _cursorInput.Cursor.Unlock.performed += _ => LockCursor(false);
             _cursorInput.Cursor.Unlock.canceled += _ => LockCursor(true);
-            _cursorInput.Cursor.Click.performed += OnClick;
-            _cursorInput.Cursor.Click.canceled += _ => OnRelease();
+            _cursorInput.Cursor.Click.started += OnClick;
+            _cursorInput.Cursor.Click.canceled += OnRelease;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (!isClick) return;
             if (!isVisible) return;
 
-            // Move particle cursor
-            if (Camera.main != null)
-            {
-                var mousePosition = Mouse.current.position.ReadValue();
-                var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-                worldPosition.z = 0f;
-                particleCursor.transform.position = worldPosition;
-            }
+            Debug.Log("Update");
+            if (Camera.main == null) return;
+
+            var mousePosition = Mouse.current.position.ReadValue();
+            var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            worldPosition.z = 0f;
+            particleCursor.transform.position = worldPosition;
         }
 
         private void LockCursor(bool isLock)
@@ -80,13 +79,13 @@ namespace CustomCursor
         {
             isClick = true;
             if (!isVisible) return;
+            if (particleCursor.isPlaying) return;
             particleCursor.Play();
         }
 
-        private void OnRelease()
+        private void OnRelease(InputAction.CallbackContext obj)
         {
             isClick = false;
-            if (!isVisible) return;
             particleCursor.Stop();
         }
 

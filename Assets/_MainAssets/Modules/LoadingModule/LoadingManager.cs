@@ -62,9 +62,9 @@ namespace LoadingModule
             fullScreenView.SetActive(false);
         }
 
-        public async void AddTask(LoadingEventData task, LoadingType loadingType = LoadingType.Overlay)
+        public async void AddTask(LoadingEventData task)
         {
-            if (!IsShowing) Show(loadingType);
+            if (!IsShowing) Show(task.LoadingType);
 
             tasks.Add(task);
             await task.Task;
@@ -79,8 +79,9 @@ namespace LoadingModule
             AddTask(new LoadingEventData
             {
                 Task = task,
-                Message = $"Loading {sceneName}"
-            }, loadingType);
+                Message = $"Loading {sceneName}",
+                LoadingType = loadingType
+            });
             return task;
         }
 
@@ -90,8 +91,9 @@ namespace LoadingModule
             AddTask(new LoadingEventData
             {
                 Task = task,
-                Message = $"Unloading {sceneName}"
-            }, loadingType);
+                Message = $"Unloading {sceneName}",
+                LoadingType = loadingType
+            });
             return task;
         }
 

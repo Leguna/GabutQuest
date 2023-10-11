@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utilities.ViewComponent;
+using Utilities.MVC.ViewComponent;
 
 namespace LoginModule
 {
@@ -23,6 +23,8 @@ namespace LoginModule
         public void Init()
         {
             signUpErrorText.text = "";
+            signUpErrorText.gameObject.SetActive(false);
+            signUpButton.onClick.AddListener(OnSignUp);
             alreadyHaveAccountText.onClick.AddListener(() => { AlreadyHaveAccount?.Invoke(); });
         }
 
@@ -37,7 +39,7 @@ namespace LoginModule
             var email = inputFieldEmail.text;
             var password = inputFieldPassword.text;
             signUpErrorText.gameObject.SetActive(true);
-            
+
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 signUpErrorText.text = "Email or password is empty";
@@ -55,7 +57,7 @@ namespace LoginModule
                 signUpErrorText.text = "Password must be at least 6 characters";
                 return;
             }
-            
+
             signUpErrorText.gameObject.SetActive(false);
             signUpErrorText.text = "";
             SignUp?.Invoke(email, password);

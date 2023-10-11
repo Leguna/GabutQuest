@@ -49,7 +49,6 @@ public class Runner : SingletonMonoBehaviour<Runner>
 
     private void OnSignedIn(FirebaseUser obj)
     {
-        Debug.Log($"OnSignedIn: {obj}");
     }
 
     private async void StartGame()

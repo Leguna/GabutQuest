@@ -1,5 +1,5 @@
 {
-    "name": "CursorInput",
+    "name": "CursorInputAction",
     "maps": [
         {
             "name": "Cursor",
@@ -25,9 +25,9 @@
                 },
                 {
                     "name": "Click",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "ee30019d-f68a-4921-b078-1ec9b45684da",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
