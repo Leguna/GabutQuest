@@ -13,7 +13,7 @@ namespace DamageSystem
         [SerializeField] private HealthBarComponent healthBarPrefab;
         private HealthBarPool healthBarPoolComponent;
 
-        private void Awake()
+        public void Init()
         {
             damagePopupPoolPrefab = Instantiate(damagePopupPoolPrefab, transform);
             damagePopupPoolPrefab.Init(damagePopupPrefab);

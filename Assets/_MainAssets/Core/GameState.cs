@@ -1,13 +1,10 @@
-﻿namespace Main
+﻿public enum GameState
 {
-    public enum GameState
-    {
-        Splash,
-        Loading,
-        MainMenu,
-        InGame,
-        Cinematic,
-        Pause,
-        None
-    }
+    Splash,
+    Loading,
+    MainMenu,
+    InGame,
+    Cinematic,
+    Pause,
+    None
 }

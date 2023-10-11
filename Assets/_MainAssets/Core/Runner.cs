@@ -9,59 +9,59 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
-namespace Main
+public class Runner : SingletonMonoBehaviour<Runner>
 {
-    public class Runner : SingletonMonoBehaviour<Runner>
+    public LoadingManager LoadingManager { get; private set; }
+    public LoginController LoginController { get; private set; }
+    private CursorManager _cursor;
+
+    [SerializeField] private Texture2D cursorTexture;
+    [SerializeField] private ParticleSystem particleCursor;
+
+    private async void Start()
     {
-        public LoadingManager LoadingManager { get; private set; }
-        public LoginController LoginController { get; private set; }
-        private CursorManager _cursor;
+        await Init();
+    }
 
-        [SerializeField] private Texture2D cursorTexture;
-        [SerializeField] private ParticleSystem particleCursor;
+    private async Task Init()
+    {
+        // Set Cursor
+        _cursor = gameObject.AddComponent<CursorManager>();
+        _cursor.Init(cursorTexture, particleCursor);
+        _cursor.SetVisible(false);
 
-        private async void Start()
-        {
-            await Init();
-        }
+        // Load Loading Scene
+        await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
+        LoadingManager = FindObjectOfType<LoadingManager>();
 
-        private async Task Init()
-        {
-            // Set Cursor
-            _cursor = gameObject.AddComponent<CursorManager>();
-            _cursor.Init(cursorTexture, particleCursor);
-            _cursor.SetVisible(false);
+        // Load Login Scene
+        await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.SplashScreen, LoadSceneMode.Additive);
+        await Task.Delay(GameConstant.SplashScreenDelayInSecond * 2000);
+        await LoadingManager.LoadScene(SceneNameConstant.SceneName.LoginScreen, LoadingManager.LoadingType.None);
+        await LoadingManager.UnloadScene(SceneNameConstant.SceneName.SplashScreen, LoadingManager.LoadingType.None);
 
-            // Load Loading Scene
-            await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
-            LoadingManager = FindObjectOfType<LoadingManager>();
+        _cursor.SetVisible(true);
 
-            // Load Login Scene
-            await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.SplashScreen, LoadSceneMode.Additive);
-            await Task.Delay(GameConstant.SplashScreenDelayInSecond * 2000);
-            await LoadingManager.LoadScene(SceneNameConstant.SceneName.LoginScreen, LoadingManager.LoadingType.None);
-            await LoadingManager.UnloadScene(SceneNameConstant.SceneName.SplashScreen, LoadingManager.LoadingType.None);
+        // Search for the LoginController in the Login scene
+        var loginController = FindObjectOfType<LoginController>();
+        loginController.Init(StartGame, OnSignedIn);
+    }
 
-            _cursor.SetVisible(true);
+    private void OnSignedIn(FirebaseUser obj)
+    {
+        Debug.Log($"OnSignedIn: {obj}");
+    }
 
-            // Search for the LoginController in the Login scene
-            var loginController = FindObjectOfType<LoginController>();
-            loginController.Init(StartGame, OnSignedIn);
-        }
+    private async void StartGame()
+    {
+        await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
+        await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
+        await LoadingManager.LoadScene(SceneNameConstant.SceneName.DamageSystemScene);
 
-        private void OnSignedIn(FirebaseUser obj)
-        {
-            Debug.Log($"OnSignedIn: {obj}");
-        }
+        var gameFlow = FindObjectOfType<FlowGame>();
+        var damageSystem = FindObjectOfType<DamageSystem.DamageSystem>();
 
-        private async void StartGame()
-        {
-            await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
-            await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
-            _cursor.SetIsForceLocked(true);
-
-            // Search for the GameController in the Game scene
-            // TOOD: Add GameController
-        }
+        damageSystem.Init();
+        gameFlow.Init();
     }
 }

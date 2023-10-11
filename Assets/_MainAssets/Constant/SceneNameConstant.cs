@@ -11,6 +11,7 @@
             GameScreen = 3,
             LoadingScreen = 4,
             ConsoleScreen = 5,
+            DamageSystemScene = 6,
         }
     }
 }
