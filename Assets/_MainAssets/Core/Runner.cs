@@ -27,7 +27,7 @@ public class Runner : SingletonMonoBehaviour<Runner>
     {
         // Set Cursor
         _cursor = gameObject.AddComponent<CursorManager>();
-        _cursor.Init(cursorTexture, particleCursor);
+        _cursor.Init(cursorTexture);
         _cursor.SetVisible(false);
 
         // Load Loading Scene

@@ -22,31 +22,14 @@ namespace CustomCursor
 
         private CursorInput _cursorInput;
 
-        public void Init(Texture2D newCursorTexture, ParticleSystem newParticleSystem, float size = 1f)
+        public void Init(Texture2D newCursorTexture, float size = 1f)
         {
             _cursorInput = new CursorInput();
             _cursorInput.Enable();
             SetVisible(isVisible);
             SetCursor(newCursorTexture);
-            particleCursor = newParticleSystem;
             _cursorInput.Cursor.Unlock.performed += _ => LockCursor(false);
             _cursorInput.Cursor.Unlock.canceled += _ => LockCursor(true);
-            _cursorInput.Cursor.Click.started += OnClick;
-            _cursorInput.Cursor.Click.canceled += OnRelease;
-        }
-
-        private void FixedUpdate()
-        {
-            if (!isClick) return;
-            if (!isVisible) return;
-
-            Debug.Log("Update");
-            if (Camera.main == null) return;
-
-            var mousePosition = Mouse.current.position.ReadValue();
-            var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            worldPosition.z = 0f;
-            particleCursor.transform.position = worldPosition;
         }
 
         private void LockCursor(bool isLock)

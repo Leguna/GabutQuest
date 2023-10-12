@@ -258,11 +258,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
---- !u!198 &1580090042 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3149792446029044478, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-  m_PrefabInstance: {fileID: 1580090041}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2001238490
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorTexture: {fileID: 2800000, guid: 9d6ccc09205e67d4fabde787f92b348f, type: 3}
-  particleCursor: {fileID: 1580090042}
+  particleCursor: {fileID: 0}
 --- !u!114 &2001238494
 MonoBehaviour:
   m_ObjectHideFlags: 0
