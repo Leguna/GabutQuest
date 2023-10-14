@@ -17,6 +17,7 @@ namespace SpawnPoint
             {
                 var spawnPoint = SpawnPointFactory.Create(spawnPointTilemapData.typeSpawnPoint);
                 spawnPoint.Spawn(spawnPointTilemapData.position);
+                
             }
         }
     }
