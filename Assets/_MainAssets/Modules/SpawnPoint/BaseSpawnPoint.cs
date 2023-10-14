@@ -2,11 +2,11 @@
 
 namespace SpawnPoint
 {
-    public class PlayerSpawnPoint : ISpawnPoint
+    public class BaseSpawnPoint : MonoBehaviour, ISpawnPoint
     {
         public void Spawn(Vector3Int position)
         {
-            Debug.Log("Spawn player");
+            Debug.Log("Spawn base object");
         }
     }
 }

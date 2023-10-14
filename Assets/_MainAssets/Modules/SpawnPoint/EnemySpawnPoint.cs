@@ -2,9 +2,9 @@
 
 namespace SpawnPoint
 {
-    public class EnemySpawnPoint : ISpawnPoint
+    public class EnemySpawnPoint : BaseSpawnPoint
     {
-        public void Spawn(Vector3Int position)
+        public new void Spawn(Vector3Int position)
         {
             Debug.Log("Spawn enemy");
         }
