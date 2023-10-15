@@ -38,7 +38,6 @@ namespace SpawnPoint
                 var textureType = GetTypeSpawnPoint(tilemapTexture2D);
                 if (textureType == TypeSpawnPoint.None) continue;
                 var spawnPoint = tilemap.CellToWorld(tilePosition);
-                // Center the position
                 var cellSize = tilemap.cellSize;
                 spawnPoint.x += cellSize.x / 2;
                 spawnPoint.y += cellSize.y / 2;
