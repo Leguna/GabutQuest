@@ -4,9 +4,12 @@ namespace SpawnPoint
 {
     public class BaseSpawnPoint : MonoBehaviour, ISpawnPoint
     {
-        public void Spawn(Vector3Int position)
+        [SerializeField] private GameObject spawnedGameObject;
+
+        public virtual GameObject Spawn(Vector3 position)
         {
             Debug.Log("Spawn base object");
+            return Instantiate(spawnedGameObject, position, Quaternion.identity);
         }
     }
 }

@@ -9,17 +9,17 @@ namespace DamageSystem
         [SerializeField] private WeaponController weaponController;
         private PlayerDamageInputAction _playerDamageInputAction;
 
-        private Animator _animator;
+        [HideInInspector] public bool canAttack;
 
-        private void Awake()
+        public void Init()
         {
             healthController = new HealthController(100);
             healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
-            TryGetComponent(out _animator);
         }
 
         private void OnAttack(InputAction.CallbackContext obj)
         {
+            if (!canAttack) return;
             weaponController.FireAttack();
         }
 
@@ -36,6 +36,7 @@ namespace DamageSystem
         private void OnDeath()
         {
             Debug.Log("Player died");
+            Destroy(gameObject);
         }
 
         private void OnEnable()

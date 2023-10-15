@@ -14,15 +14,10 @@ namespace DamageSystem
         public float LastAttackTime { get; private set; }
         private static readonly int AttackKey = Animator.StringToHash("Attack");
 
-        private void Start()
+        public void Init(int damage)
         {
             TryGetComponent(out _collider2D);
             TryGetComponent(out animator);
-            Init(10);
-        }
-
-        public void Init(int damage)
-        {
             Damage = damage;
         }
 

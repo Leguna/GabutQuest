@@ -4,6 +4,6 @@ namespace SpawnPoint
 {
     public interface ISpawnPoint
     {
-        void Spawn(Vector3Int position);
+        GameObject Spawn(Vector3 position);
     }
 }

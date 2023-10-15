@@ -17,14 +17,15 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             }
         }
 
-        private void Start()
+        public void Init()
         {
             TryGetComponent(out _animator);
         }
-
         private void UpdateAnimation()
         {
             _animator.SetInteger(StateMovement, (int)_movementState);
         }
+
+       
     }
 }

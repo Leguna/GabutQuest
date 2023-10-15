@@ -39,11 +39,9 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             }
         }
 
-        // Components
-
         private Rigidbody2D _rigidbody2D;
 
-        public bool isOverrideCanMove = true;
+        [HideInInspector] public bool isOverrideCanMove;
 
         private bool CanJump => _movementState is MovementState.Idle or MovementState.Walking
             or MovementState.Running;
@@ -53,14 +51,24 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
         private bool CanMove => _movementState is MovementState.Jumping or MovementState.Falling
             or MovementState.Landing or MovementState.Idle or MovementState.Running or MovementState.Walking;
 
-        public void Start()
+        public void FixedUpdate()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            if (!isOverrideCanMove) return;
+            Move();
+            UpdateState();
+        }
+
+        public void Init(MovementAnimationController newMovementAnimationController)
+        {
+            movementAnimationController = newMovementAnimationController;
+            movementAnimationController.Init();
+            TryGetComponent(out _rigidbody2D);
             _movementInput.Init();
             _movementInput.OnMoveHorizontal += Walk;
             _movementInput.OnRun += Run;
             _movementInput.OnJump += Jump;
             _movementInput.OnDash += Dash;
+            isOverrideCanMove = true;
         }
 
         private void UpdateAnimation()
@@ -68,18 +76,11 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             movementAnimationController.MovementState = _movementState;
         }
 
-        public void FixedUpdate()
-        {
-            Move();
-            UpdateState();
-        }
-
         private void UpdateState()
         {
             if (_movementState == MovementState.Dashing) return;
 
             if (IsGrounded())
-            {
                 if (_movementState is MovementState.Landing or MovementState.Walking or MovementState.Running
                     or MovementState.Idle)
                 {
@@ -89,7 +90,6 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
                     MovementState = MovementState.Landing;
                     return;
                 }
-            }
 
             if (_rigidbody2D.velocity.y < 0f && !IsGrounded() && _movementState != MovementState.Falling)
             {
@@ -106,10 +106,7 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
                 return;
             }
 
-            if (_movementState != MovementState.Idle && IsGrounded())
-            {
-                MovementState = MovementState.Idle;
-            }
+            if (_movementState != MovementState.Idle && IsGrounded()) MovementState = MovementState.Idle;
         }
 
         private bool IsGrounded()
@@ -119,8 +116,6 @@ namespace TwoDPlatformer.TwoDPlatformMovement.Scripts
             var position = transform.position;
             var hit = Physics2D.BoxCast(position, boxCastSize, 0f, Vector2.down, distance,
                 LayerMask.GetMask("Ground"));
-            // Raycast for getting the ground layer
-            Debug.DrawRay(position, Vector2.down * distance, Color.red);
             var velocity = _rigidbody2D.velocity;
             return hit.collider && velocity.y <= 0.1f && velocity.y >= -0.1;
         }

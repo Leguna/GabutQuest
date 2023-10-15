@@ -12,14 +12,9 @@ namespace SpawnPoint
         [SerializeField] private Tilemap tilemap;
         [SerializeField] private SpawnPointTilemapData[] tilemapTextureType;
 
-        public SpawnPointTilemapData[] spawnPointTilemapDatas;
+        [HideInInspector] public SpawnPointTilemapData[] spawnPointTilemapDatas;
 
-        private void Awake()
-        {
-            Init();
-        }
-
-        private void Init()
+        internal void Init()
         {
             TryGetComponent(out tilemap);
             Scan();
@@ -36,19 +31,24 @@ namespace SpawnPoint
             {
                 var tile = allTiles[x + y * bounds.size.x];
                 if (tile == null) continue;
-                var tilePosition = new Vector3Int(x + bounds.position.x, y + bounds.position.y);
+
+                var tilePosition = new Vector3Int(x + bounds.xMin, y + bounds.yMin, 0);
                 var tilemapTexture = tilemap.GetSprite(tilePosition);
                 var tilemapTexture2D = tilemapTexture.texture;
                 var textureType = GetTypeSpawnPoint(tilemapTexture2D);
                 if (textureType == TypeSpawnPoint.None) continue;
+                var spawnPoint = tilemap.CellToWorld(tilePosition);
+                // Center the position
+                var cellSize = tilemap.cellSize;
+                spawnPoint.x += cellSize.x / 2;
+                spawnPoint.y += cellSize.y / 2;
 
-                var spawnPointTilemapData = new SpawnPointTilemapData
-                {
-                    typeSpawnPoint = textureType,
-                    position = tilePosition,
-                    texture2D = tilemapTexture2D,
-                    tileBase = tile
-                };
+                var spawnPointTilemapData = new SpawnPointTilemapData(
+                    spawnPoint,
+                    tilemapTexture2D,
+                    tile,
+                    textureType
+                );
                 spawnPointTilemapDataList.Add(spawnPointTilemapData);
             }
 
@@ -65,12 +65,27 @@ namespace SpawnPoint
         [Serializable]
         public class SpawnPointTilemapData
         {
-            // Name by type spawn point
             public string name;
             public TypeSpawnPoint typeSpawnPoint;
-            public Vector3Int position;
+            public Vector3 position;
             public Texture2D texture2D;
-            public TileBase tileBase;
+            public TileBase TileBase { get; }
+
+            public SpawnPointTilemapData(Vector3 position, Texture2D texture2D, TileBase tileBase,
+                TypeSpawnPoint typeSpawnPoint = TypeSpawnPoint.None)
+            {
+                this.position = position;
+                this.texture2D = texture2D;
+                TileBase = tileBase;
+                name = typeSpawnPoint.ToString();
+                this.typeSpawnPoint = typeSpawnPoint;
+            }
+
+            public void SetTypeSpawnPoint(TypeSpawnPoint newTypeSpawnPoint)
+            {
+                typeSpawnPoint = newTypeSpawnPoint;
+                name = newTypeSpawnPoint.ToString();
+            }
 
             public override string ToString()
             {

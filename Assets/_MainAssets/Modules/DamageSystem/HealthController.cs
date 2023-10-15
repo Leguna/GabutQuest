@@ -29,10 +29,10 @@ namespace DamageSystem
         {
             Health -= damage;
             _onDamageTaken?.Invoke(damage);
-            if (Health <= 0) OnDeath();
+            if (Health <= 0) Die();
         }
 
-        public void OnDeath()
+        public void Die()
         {
             Health = 0;
             _onDeath?.Invoke();
