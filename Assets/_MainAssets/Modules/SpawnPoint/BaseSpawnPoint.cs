@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SpawnPoint
 {
@@ -6,10 +7,9 @@ namespace SpawnPoint
     {
         [SerializeField] private GameObject spawnedGameObject;
 
-        public virtual GameObject Spawn(Vector3 position)
+        public virtual GameObject Spawn(Transform targetTransform)
         {
-            Debug.Log("Spawn base object");
-            return Instantiate(spawnedGameObject, position, Quaternion.identity);
+            return Instantiate(spawnedGameObject, targetTransform.position, targetTransform.rotation);
         }
     }
 }

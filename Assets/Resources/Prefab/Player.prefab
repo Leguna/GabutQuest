@@ -4958,6 +4958,8 @@ GameObject:
   - component: {fileID: 7601121877530198787}
   - component: {fileID: 116142212082704110}
   - component: {fileID: 8291013848263190291}
+  - component: {fileID: -6696053611825670023}
+  - component: {fileID: -823753342158892345}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -5124,6 +5126,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponController: {fileID: 419663185815047902}
   canAttack: 0
+--- !u!114 &-6696053611825670023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901556544867194727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e824197a13224561917cae93714a6de2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-823753342158892345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901556544867194727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd43c23e62f05544a11ee83e66d6085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCameraBase: {fileID: 1786982861693803146, guid: d9384213e7245d047baca81a4b2df14d, type: 3}
 --- !u!1 &3467281666944877517
 GameObject:
   m_ObjectHideFlags: 0

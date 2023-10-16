@@ -6,71 +6,71 @@ namespace Leveling
     [Serializable]
     public class BaseLevel
     {
-        public int Level;
-        public int Exp;
-        public int MaxExp;
-        public int MaxLevel;
-        public int Ascension;
-        public int MaxAscension;
-        public int Refinement;
-        public int MaxRefinement;
+        public int level;
+        public int exp;
+        public int maxExp;
+        public int maxLevel;
+        public int ascension;
+        public int maxAscension;
+        public int refinement;
+        public int maxRefinement;
 
         public BaseLevel(int level, int exp, int maxExp, int maxLevel, int ascension, int maxAscension, int refinement,
             int maxRefinement)
         {
-            Level = level;
-            Exp = exp;
-            MaxExp = maxExp;
-            MaxLevel = maxLevel;
-            Ascension = ascension;
-            MaxAscension = maxAscension;
-            Refinement = refinement;
-            MaxRefinement = maxRefinement;
+            this.level = level;
+            this.exp = exp;
+            this.maxExp = maxExp;
+            this.maxLevel = maxLevel;
+            this.ascension = ascension;
+            this.maxAscension = maxAscension;
+            this.refinement = refinement;
+            this.maxRefinement = maxRefinement;
         }
 
         public BaseLevel()
         {
-            Level = 1;
-            Exp = 0;
-            MaxExp = 100;
-            MaxLevel = 100;
-            Ascension = 0;
-            MaxAscension = 10;
-            Refinement = 0;
-            MaxRefinement = 10;
+            level = 1;
+            exp = 0;
+            maxExp = 10;
+            maxLevel = 100;
+            ascension = 0;
+            maxAscension = 10;
+            refinement = 0;
+            maxRefinement = 10;
         }
 
-        public void AddExp(int exp)
+        public void AddExp(int newExp)
         {
-            Exp += exp;
-            if (Exp < MaxExp) return;
-            Exp -= MaxExp;
-            Level++;
-            if (Level < MaxLevel) return;
-            Level = MaxLevel;
-            Exp = 0;
+            exp += newExp;
+            if (exp < maxExp) return;
+            exp -= maxExp;
+            level++;
+            if (level < maxLevel) return;
+            level = maxLevel;
+            exp = 0;
         }
 
-        public void AddAscension(int ascension)
+        public void AddAscension(int addAscension)
         {
-            Ascension += ascension;
-            if (Ascension < MaxAscension) return;
-            Ascension -= MaxAscension;
-            Refinement++;
-            if (Refinement < MaxRefinement) return;
-            Refinement = MaxRefinement;
-            Ascension = 0;
+            ascension += addAscension;
+            if (ascension < maxAscension) return;
+            ascension -= maxAscension;
+            refinement++;
+            if (refinement < maxRefinement) return;
+            refinement = maxRefinement;
+            ascension = 0;
         }
 
-        public void AddRefinement(int refinement)
+        public void AddRefinement(int addRefinement)
         {
-            Refinement += refinement;
-            if (Refinement < MaxRefinement) return;
-            Refinement -= MaxRefinement;
-            Ascension++;
-            if (Ascension < MaxAscension) return;
-            Ascension = MaxAscension;
-            Refinement = 0;
+            refinement += addRefinement;
+            if (refinement < maxRefinement) return;
+            refinement -= maxRefinement;
+            ascension++;
+            if (ascension < maxAscension) return;
+            ascension = maxAscension;
+            refinement = 0;
         }
 
         public BaseLevel FromJson(string json)
