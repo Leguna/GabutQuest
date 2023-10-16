@@ -6,7 +6,7 @@ namespace TwoDPlatformer
     public class PlayerCamera : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCameraBase virtualCameraBase;
-        [SerializeField] private CinemachineConfiner2D cinemachineConfiner2D;
+        private CinemachineConfiner2D cinemachineConfiner2D;
 
         public void Init()
         {
