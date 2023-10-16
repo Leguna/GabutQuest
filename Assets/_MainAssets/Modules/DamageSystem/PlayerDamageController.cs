@@ -15,6 +15,7 @@ namespace DamageSystem
         {
             healthController = new HealthController(100);
             healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
+            canAttack = true;
         }
 
         private void OnAttack(InputAction.CallbackContext obj)

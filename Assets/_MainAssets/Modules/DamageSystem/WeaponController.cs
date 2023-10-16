@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DamageSystem
 {
@@ -8,7 +9,7 @@ namespace DamageSystem
     {
         [SerializeField] private GameObject weaponHandler;
         [SerializeField] private Animator animator;
-        private Collider2D _collider2D;
+        [SerializeField] private Collider2D weaponCollider;
         public int Damage { get; private set; }
         public float Delay { get; set; }
         public float LastAttackTime { get; private set; }
@@ -16,7 +17,7 @@ namespace DamageSystem
 
         public void Init(int damage)
         {
-            TryGetComponent(out _collider2D);
+            TryGetComponent(out weaponCollider);
             TryGetComponent(out animator);
             Damage = damage;
         }
@@ -24,13 +25,13 @@ namespace DamageSystem
         public void FireAttack()
         {
             LastAttackTime = Time.time;
-            _collider2D.enabled = true;
+            weaponCollider.enabled = true;
             animator.SetTrigger(AttackKey);
         }
 
         private void FinishAnimation()
         {
-            _collider2D.enabled = false;
+            weaponCollider.enabled = false;
         }
 
 
