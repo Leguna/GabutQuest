@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Utilities.ModelComponent;
+using Utilities.MVC.ModelComponent;
 
 namespace Utilities.MVC.ViewComponent
 {

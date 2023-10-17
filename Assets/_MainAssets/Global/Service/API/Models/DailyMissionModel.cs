@@ -5,37 +5,37 @@ namespace Service.API.Models
     [Serializable]
     public class DailyMissionModel : BaseResponse<DailyMissionModel>
     {
-        public string ID;
-        public string Name;
-        public string Description;
-        public int Reward;
-        public int Progress;
-        public int Target;
-        public bool IsClaimed;
+        public string id;
+        public string name;
+        public string description;
+        public int reward;
+        public int progress;
+        public int target;
+        public bool isClaimed;
     }
 
     [Serializable]
     public class DailyMissionResponse : BaseResponse<DailyMissionResponse>
     {
-        public DailyMissionModel[] Data;
+        public DailyMissionModel[] data;
     }
 
     [Serializable]
     public class DailyMissionClaimRequest : BaseResponse<DailyMissionClaimRequest>
     {
-        public string ID;
+        public string id;
     }
 
     [Serializable]
     public class DailyLoginResponse : BaseResponse<DailyLoginResponse>
     {
-        public int Day;
-        public int Reward;
+        public int day;
+        public int reward;
     }
 
     [Serializable]
     public class DailyLoginClaimRequest : BaseResponse<DailyLoginClaimRequest>
     {
-        public int Day;
+        public int day;
     }
 }

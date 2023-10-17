@@ -1,4 +1,4 @@
-﻿namespace Utilities.ModelComponent
+﻿namespace Utilities.MVC.ModelComponent
 {
     public abstract class BaseModel
     {

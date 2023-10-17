@@ -9,5 +9,12 @@ namespace Utilities
 
             return $"{minutes:00}:{seconds:00}";
         }
+        
+        
+        public static string TrimUTF8Bom(string value)
+        {
+            value = value.Trim('\uFEFF', '\u200B');
+            return value;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Player
         private PlayerDamageController _playerDamageController;
         private MovementAnimationController _movementAnimationController;
         private PlayerCamera _playerCamera;
+        private ActorBaseData _actorBaseData;
 
         public void Init()
         {

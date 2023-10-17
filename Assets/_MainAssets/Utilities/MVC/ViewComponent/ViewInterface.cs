@@ -1,4 +1,4 @@
-﻿namespace Utilities.ViewComponent
+﻿namespace Utilities.MVC.ViewComponent
 {
     public interface IViewInterface
     {

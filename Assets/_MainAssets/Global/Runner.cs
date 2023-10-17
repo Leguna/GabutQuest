@@ -5,18 +5,21 @@ using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using LoadingModule;
 using LoginModule;
+using Service.API;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
 public class Runner : SingletonMonoBehaviour<Runner>
 {
-    public LoadingManager LoadingManager { get; private set; }
+    private LoadingManager LoadingManager { get; set; }
     public LoginController LoginController { get; private set; }
     private CursorManager _cursor;
 
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private ParticleSystem particleCursor;
+
+    private BaseAPIService _baseApiService;
 
     private async void Start()
     {
@@ -25,6 +28,9 @@ public class Runner : SingletonMonoBehaviour<Runner>
 
     private async Task Init()
     {
+        // Init API Service
+        // TODO: Api Service should be injected
+
         // Set Cursor
         _cursor = gameObject.AddComponent<CursorManager>();
         _cursor.Init(cursorTexture);

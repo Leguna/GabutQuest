@@ -7,26 +7,26 @@ namespace Service.API.Models
     [Serializable]
     public class BaseResponse<T>
     {
-        public bool IsSuccess;
-        public string Message;
-        public int StatusCode;
+        public bool isSuccess;
+        public string message;
+        public int statusCode;
         public Dictionary<string, string> Errors;
 
-        public bool IsError => !IsSuccess;
+        public bool IsError => !isSuccess;
 
         public BaseResponse()
         {
-            IsSuccess = false;
-            Message = "";
-            StatusCode = 0;
+            isSuccess = false;
+            message = "";
+            statusCode = 0;
             Errors = new Dictionary<string, string>();
         }
 
         public BaseResponse(bool isSuccess, string message, int statusCode, Dictionary<string, string> errors)
         {
-            IsSuccess = isSuccess;
-            Message = message;
-            StatusCode = statusCode;
+            this.isSuccess = isSuccess;
+            this.message = message;
+            this.statusCode = statusCode;
             Errors = errors;
         }
 
