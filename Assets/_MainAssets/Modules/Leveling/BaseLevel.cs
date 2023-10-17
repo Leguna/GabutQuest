@@ -33,11 +33,11 @@ namespace Leveling
             level = 1;
             exp = 0;
             maxExp = 10;
-            maxLevel = 100;
+            maxLevel = 10;
             ascension = 0;
-            maxAscension = 10;
+            maxAscension = 5;
             refinement = 0;
-            maxRefinement = 10;
+            maxRefinement = 5;
         }
 
         public void AddExp(int newExp)
