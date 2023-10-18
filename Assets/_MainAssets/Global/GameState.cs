@@ -3,7 +3,7 @@
     Splash,
     Loading,
     MainMenu,
-    InGame,
+    Playing,
     Cinematic,
     Pause,
     None

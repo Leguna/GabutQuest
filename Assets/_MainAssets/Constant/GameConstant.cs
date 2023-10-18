@@ -4,13 +4,14 @@
     {
         public const int SplashScreenDelayInSecond = 2;
         public const float LoadingScreenDelay = 2f;
-        
+
         // Object name
         public const string PlayerObjectName = "Player";
         public const string PlayerCameraObjectName = "PlayerCamera";
         public const string CameraBound = "CameraBound";
-        
+
         // Tag
         public const string BoundingTag = "Bounding";
+        public const string BaseUrl = "https://localhost:5001/api/v1/";
     }
 }

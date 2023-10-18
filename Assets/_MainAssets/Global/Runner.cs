@@ -29,7 +29,7 @@ public class Runner : SingletonMonoBehaviour<Runner>
     private async Task Init()
     {
         // Init API Service
-        // TODO: Api Service should be injected
+        _baseApiService = new BaseAPIService(GameConstant.BaseUrl, "");
 
         // Set Cursor
         _cursor = gameObject.AddComponent<CursorManager>();
@@ -53,8 +53,10 @@ public class Runner : SingletonMonoBehaviour<Runner>
         loginController.Init(StartGame, OnSignedIn);
     }
 
-    private void OnSignedIn(FirebaseUser obj)
+    private async void OnSignedIn(FirebaseUser obj)
     {
+        var token = await obj.TokenAsync(false);
+        _baseApiService.SetToken(token);
     }
 
     private async void StartGame()

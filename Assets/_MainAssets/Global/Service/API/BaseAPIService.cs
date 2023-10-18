@@ -6,17 +6,22 @@ namespace Service.API
     public class BaseAPIService
     {
         private readonly string baseUrl;
-        private readonly string userToken;
+        private string userToken;
 
-        private BaseAPIService(string url, string token)
+        public BaseAPIService(string url, string token)
         {
             baseUrl = url ?? "";
             userToken = token ?? "";
         }
 
+        public void SetToken(string token)
+        {
+            userToken = token;
+        }
+
         public Task<UnityWebRequestAsyncOperation> RequestData<T>(string path)
         {
-            var requestUrl = $"{baseUrl}/api/v1/{path}";
+            var requestUrl = $"{baseUrl}/{path}";
             var request = UnityWebRequest.Get($"{requestUrl}");
             request.SetRequestHeader("Authorization", $"Bearer {userToken}");
             request.timeout = 10;
