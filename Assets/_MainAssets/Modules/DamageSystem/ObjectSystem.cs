@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DamageSystem
 {
-    public class ObjectController : MonoBehaviour, IDamageable, IHealth
+    public class ObjectSystem : MonoBehaviour, IDamageable, IHealth
     {
         public int Health { get; set; }
         public int MaxHealth { get; set; }

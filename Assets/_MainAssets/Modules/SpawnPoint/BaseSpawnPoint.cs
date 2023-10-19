@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SpawnPoint
 {
@@ -9,7 +8,7 @@ namespace SpawnPoint
 
         public virtual GameObject Spawn(Transform targetTransform)
         {
-            return Instantiate(spawnedGameObject, targetTransform.position, targetTransform.rotation);
+            return Instantiate(spawnedGameObject, targetTransform.position, targetTransform.rotation, transform);
         }
     }
 }

@@ -27,10 +27,12 @@ namespace SpawnPoint
                 switch (data.typeSpawnPoint)
                 {
                     case TypeSpawnPoint.Player:
-                        _playerSystem = Instantiate(playerSpawnPoint, data.position, Quaternion.identity).Spawn();
+                        _playerSystem = Instantiate(playerSpawnPoint, data.position, Quaternion.identity, transform)
+                            .Spawn();
                         break;
                     case TypeSpawnPoint.Enemy:
-                        var enemySpawnPointObject = Instantiate(enemySpawnPoint, data.position, Quaternion.identity);
+                        var enemySpawnPointObject =
+                            Instantiate(enemySpawnPoint, data.position, Quaternion.identity, transform);
                         enemySpawnPointObject.Spawn(enemySpawnPointObject.transform);
                         break;
                     case TypeSpawnPoint.None:

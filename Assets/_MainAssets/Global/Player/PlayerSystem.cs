@@ -7,11 +7,17 @@ namespace Player
 {
     public class PlayerSystem : MonoBehaviour
     {
+        [SerializeField] private ActorBaseData actorBaseData;
         private MovementController _playerMovement;
         private PlayerDamageController _playerDamageController;
         private MovementAnimationController _movementAnimationController;
         private PlayerCamera _playerCamera;
-        private ActorBaseData _actorBaseData;
+
+        public void Init(ActorBaseData newActorBaseData)
+        {
+            actorBaseData = newActorBaseData;
+            Init();
+        }
 
         public void Init()
         {

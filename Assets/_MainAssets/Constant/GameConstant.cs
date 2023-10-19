@@ -12,6 +12,6 @@
 
         // Tag
         public const string BoundingTag = "Bounding";
-        public const string BaseUrl = "https://localhost:5001/api/v1/";
+        public const string BaseUrl = "http://127.0.0.1:5001/gabutquest/us-central1/api/v1/";
     }
 }

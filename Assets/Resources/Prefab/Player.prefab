@@ -5139,6 +5139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e824197a13224561917cae93714a6de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actorBaseData: {fileID: 11400000, guid: 7307e4f14bd66244486ea71d0e74a15e, type: 2}
 --- !u!114 &-823753342158892345
 MonoBehaviour:
   m_ObjectHideFlags: 0

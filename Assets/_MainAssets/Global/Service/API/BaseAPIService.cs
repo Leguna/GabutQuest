@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 
 namespace Service.API
@@ -19,14 +20,14 @@ namespace Service.API
             userToken = token;
         }
 
-        public Task<UnityWebRequestAsyncOperation> RequestData<T>(string path)
+        public Task<UnityWebRequest> RequestData(string path)
         {
-            var requestUrl = $"{baseUrl}/{path}";
+            var requestUrl = $"{baseUrl}{path}";
             var request = UnityWebRequest.Get($"{requestUrl}");
             request.SetRequestHeader("Authorization", $"Bearer {userToken}");
             request.timeout = 10;
-
-            return Task.FromResult(request.SendWebRequest());
+            var uniTask = request.SendWebRequest().ToUniTask();
+            return uniTask.AsTask();
         }
     }
 }
