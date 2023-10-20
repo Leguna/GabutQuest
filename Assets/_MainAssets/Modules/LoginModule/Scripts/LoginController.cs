@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EventStruct;
 using Firebase;
 using Firebase.Auth;
-using LoadingModule;
 using UnityEngine;
 using UnityEngine.Events;
 using Utilities;
@@ -66,18 +65,16 @@ namespace LoginModule
                 return;
             }
 
-            if (_auth.CurrentUser != _user)
-            {
-                bool signedIn = _user != _auth.CurrentUser && _auth.CurrentUser != null
-                                                           && _auth.CurrentUser.IsValid();
-                if (!signedIn && _user != null) Debug.Log("Signed out " + _user.UserId);
+            if (_auth.CurrentUser == _user) return;
+            var signedIn = _user != _auth.CurrentUser && _auth.CurrentUser != null
+                                                      && _auth.CurrentUser.IsValid();
+            if (!signedIn && _user != null) Debug.Log("Signed out " + _user.UserId);
 
-                _user = _auth.CurrentUser;
-                if (!signedIn) return;
-                onSignInSuccess?.Invoke(_user);
-                ChangeViewState(LoginViewState.LoggedIn);
-                Debug.Log("Signed in " + _auth.CurrentUser.UserId);
-            }
+            _user = _auth.CurrentUser;
+            if (!signedIn) return;
+            onSignInSuccess?.Invoke(_user);
+            ChangeViewState(LoginViewState.LoggedIn);
+            Debug.Log("Signed in " + _auth.CurrentUser.UserId);
         }
 
         private void SignIn(bool isAnon = false, string email = "", string password = "")
@@ -90,11 +87,9 @@ namespace LoginModule
                 : _auth.SignInWithEmailAndPasswordAsync(email, password);
 
             EventManager.TriggerEvent(new LoadingEventData
-            {
-                Task = task,
-                Message = "Signing in...",
-                LoadingType = LoadingManager.LoadingType.Overlay
-            });
+            (
+                task
+            ));
         }
 
         private void SignInWithEmail(string email, string password)

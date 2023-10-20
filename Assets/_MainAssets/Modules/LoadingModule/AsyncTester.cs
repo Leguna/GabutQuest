@@ -33,7 +33,9 @@ namespace LoadingModule
             for (var i = 1; i <= n; i++)
             {
                 var loadingMethod = LoadingMethod();
-                loadingManager.AddTask(new LoadingEventData { Task = loadingMethod, Message = $"Loading Method {i}" });
+                loadingManager.AddTask(new LoadingEventData(loadingMethod, LoadingManager.LoadingType.Overlay,
+                    null, $"Loading Method {i}"
+                ));
             }
         }
 

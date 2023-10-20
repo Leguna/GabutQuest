@@ -2,12 +2,14 @@ using System.Threading.Tasks;
 using Constant;
 using CustomCursor;
 using Cysharp.Threading.Tasks;
+using EventStruct;
 using Firebase.Auth;
 using LoadingModule;
 using LoginModule;
 using Service.API;
 using Service.API.Models;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Utilities;
 
@@ -62,10 +64,18 @@ public class Runner : SingletonMonoBehaviour<Runner>
 
     private async void StartGame()
     {
-        var requestData = await _baseApiService.RequestData("players/stats/");
-        var playerStats = JsonUtility.FromJson<PlayerStatsRequest>(requestData.downloadHandler.text);
-        Debug.Log(playerStats);
-        // TODO: Save/Load System
+        LoadingManager.AddTask(new LoadingEventData<UnityWebRequest>(
+            _baseApiService.RequestData("players/stats/"),
+            LoadingManager.LoadingType.FullScreen,
+            (requestData) =>
+            {
+                var playerStats = JsonUtility.FromJson<PlayerStatsRequest>(requestData.downloadHandler.text);
+                Debug.Log(playerStats);
+                // TODO: Save/Load System
+            }
+        ));
+
+
         await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
         await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
         await LoadingManager.LoadScene(SceneNameConstant.SceneName.DamageSystemScene);

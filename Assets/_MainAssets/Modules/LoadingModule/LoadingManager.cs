@@ -71,17 +71,29 @@ namespace LoadingModule
             tasks.Remove(task);
 
             if (tasks.Count == 0) Hide();
+            task.OnComplete?.Invoke();
+        }
+
+        public async void AddTask<T>(LoadingEventData<T> task)
+        {
+            if (!IsShowing) Show(task.LoadingType);
+
+            tasks.Add(task);
+            var result = await task.Task;
+            tasks.Remove(task);
+
+            if (tasks.Count == 0) Hide();
+            task.OnComplete?.Invoke(result);
         }
 
         public Task LoadScene(SceneNameConstant.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
         {
             var task = SceneManager.LoadSceneAsync((int)sceneName, LoadSceneMode.Additive).ToUniTask().AsTask();
-            AddTask(new LoadingEventData
-            {
-                Task = task,
-                Message = $"Loading {sceneName}",
-                LoadingType = loadingType
-            });
+            AddTask(new LoadingEventData(
+                task,
+                loadingType,
+                message: $"Loading {sceneName}"
+            ));
             return task;
         }
 
@@ -89,11 +101,11 @@ namespace LoadingModule
         {
             var task = SceneManager.UnloadSceneAsync((int)sceneName).ToUniTask().AsTask();
             AddTask(new LoadingEventData
-            {
-                Task = task,
-                Message = $"Unloading {sceneName}",
-                LoadingType = loadingType
-            });
+            (
+                task,
+                loadingType,
+                message: $"Unloading {sceneName}"
+            ));
             return task;
         }
 

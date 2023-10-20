@@ -69,9 +69,9 @@ namespace Utilities
         public static void TriggerEvent<T>(T data)
         {
             CheckSceneMatches();
-            if (_eventDictionary.TryGetValue(typeof(T), out var listeners))
-                foreach (var listener in listeners.ToArray())
-                    listener.DynamicInvoke(data);
+            if (!_eventDictionary.TryGetValue(typeof(T), out var listeners)) return;
+            foreach (var listener in listeners.ToArray())
+                listener.DynamicInvoke(data);
         }
     }
 }
