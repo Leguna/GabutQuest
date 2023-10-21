@@ -4,7 +4,7 @@ namespace Utilities
 {
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
-        public static T Instance { get; private set; }
+        protected static T Instance { get; private set; }
 
         protected virtual void Awake()
         {
