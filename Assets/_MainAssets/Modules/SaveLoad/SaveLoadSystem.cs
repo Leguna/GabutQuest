@@ -4,31 +4,27 @@ using UnityEngine;
 
 namespace SaveLoad
 {
-    public class SaveLoadSystem
+    public static class SaveLoadSystem
     {
-        private static readonly string _saveFolder = "SaveData";
-        private static readonly string _saveExtension = ".sav";
+        private const string SaveFolder = "SaveData";
+        private const string SaveExtension = ".sav";
 
         public static void Save(ISaveable saveable)
         {
             var saveObject = saveable.CaptureState();
             var path = GetPathFromSaveable(saveable);
-            using (var stream = File.Open(path, FileMode.Create))
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, saveObject);
-            }
+            using var stream = File.Open(path, FileMode.Create);
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(stream, saveObject);
         }
 
         public static void Load(ISaveable saveable)
         {
             var path = GetPathFromSaveable(saveable);
-            using (var stream = File.Open(path, FileMode.Open))
-            {
-                var formatter = new BinaryFormatter();
-                var saveObject = formatter.Deserialize(stream);
-                saveable.RestoreState(saveObject);
-            }
+            using var stream = File.Open(path, FileMode.Open);
+            var formatter = new BinaryFormatter();
+            var saveObject = formatter.Deserialize(stream);
+            saveable.RestoreState(saveObject);
         }
 
         public static void Delete(ISaveable saveable)
@@ -39,13 +35,13 @@ namespace SaveLoad
 
         private static string GetPathFromSaveable(ISaveable saveable)
         {
-            var saveFolder = Path.Combine(Application.persistentDataPath, _saveFolder);
+            var saveFolder = Path.Combine(Application.persistentDataPath, SaveFolder);
             if (!Directory.Exists(saveFolder))
             {
                 Directory.CreateDirectory(saveFolder);
             }
 
-            return Path.Combine(saveFolder, saveable.GetUniqueIdentifier() + _saveExtension);
+            return Path.Combine(saveFolder, saveable.GetUniqueIdentifier() + SaveExtension);
         }
     }
 }

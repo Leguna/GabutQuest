@@ -1,4 +1,5 @@
 ﻿using DamageSystem;
+using SaveLoad;
 using TwoDPlatformer;
 using TwoDPlatformer.TwoDPlatformMovement.Scripts;
 using UnityEngine;
@@ -7,20 +8,22 @@ namespace Player
 {
     public class PlayerSystem : MonoBehaviour
     {
-        [SerializeField] private ActorBaseData actorBaseData;
+        [SerializeField] private PlayerBaseData playerBaseData;
         private MovementController _playerMovement;
         private PlayerDamageController _playerDamageController;
         private MovementAnimationController _movementAnimationController;
         private PlayerCamera _playerCamera;
 
-        public void Init(ActorBaseData newActorBaseData)
+        public void Init(PlayerBaseData newPlayerBaseData)
         {
-            actorBaseData = newActorBaseData;
+            playerBaseData = newPlayerBaseData;
             Init();
         }
 
         public void Init()
         {
+            playerBaseData = ScriptableObject.CreateInstance<PlayerBaseData>();
+            SaveLoadSystem.Load(playerBaseData);
             if (TryGetComponent(out _movementAnimationController))
                 if (TryGetComponent(out _playerMovement))
                     _playerMovement.Init(_movementAnimationController);

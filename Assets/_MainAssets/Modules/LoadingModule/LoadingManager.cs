@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Constant;
@@ -66,12 +67,21 @@ namespace LoadingModule
         {
             if (!IsShowing) Show(task.LoadingType);
 
-            tasks.Add(task);
-            await task.Task;
-            tasks.Remove(task);
+            try
+            {
+                tasks.Add(task);
+                await task.Task;
+                tasks.Remove(task);
+
+                task.OnComplete?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                tasks.Remove(task);
+            }
 
             if (tasks.Count == 0) Hide();
-            task.OnComplete?.Invoke();
         }
 
         public async void AddTask<T>(LoadingEventData<T> task)

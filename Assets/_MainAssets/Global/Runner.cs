@@ -6,8 +6,9 @@ using EventStruct;
 using Firebase.Auth;
 using LoadingModule;
 using LoginModule;
+using Player;
+using SaveLoad;
 using Service.API;
-using Service.API.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -62,28 +63,25 @@ public class Runner : SingletonMonoBehaviour<Runner>
         _baseApiService.SetToken(token);
     }
 
-    private async void StartGame()
+    private void StartGame()
     {
         LoadingManager.AddTask(new LoadingEventData<UnityWebRequest>(
             _baseApiService.RequestData("players/stats/"),
-            LoadingManager.LoadingType.FullScreen,
-            (requestData) =>
-            {
-                var playerStats = JsonUtility.FromJson<PlayerStatsRequest>(requestData.downloadHandler.text);
-                Debug.Log(playerStats);
-                // TODO: Save/Load System
-            }
+            LoadingManager.LoadingType.FullScreen, OnDataPlayerGet
         ));
+    }
 
+    private async void OnDataPlayerGet(UnityWebRequest requestData)
+    {
+        var playerStats = ScriptableObject.CreateInstance<PlayerBaseData>();
+        playerStats.RestoreState(requestData.downloadHandler.text);
+        SaveLoadSystem.Save(playerStats);
 
         await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
         await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
         await LoadingManager.LoadScene(SceneNameConstant.SceneName.DamageSystemScene);
 
         var gameFlow = FindObjectOfType<FlowGame>();
-        var damageSystem = FindObjectOfType<DamageSystem.DamageSystem>();
-
-        damageSystem.Init();
         gameFlow.Init();
     }
 }
