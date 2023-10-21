@@ -19,15 +19,6 @@ namespace ToastModal
             toastPool = Instantiate(toastPool, transform);
             toastPool.Init(toast, 5);
         }
-
-        public void OnGUI()
-        {
-            if (GUI.Button(new Rect(10, 10, 150, 100), "Show Toast"))
-            {
-                Show("Hello World");
-            }
-        }
-
         public static void Show(string message, float duration = 1f) =>
             Instance.toastPool.GetObject().Show(message, duration);
     }

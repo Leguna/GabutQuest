@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using ToastModal;
 using UnityEngine.Networking;
 
 namespace Service.API
@@ -22,12 +24,22 @@ namespace Service.API
 
         public Task<UnityWebRequest> RequestData(string path)
         {
-            var requestUrl = $"{baseUrl}{path}";
-            var request = UnityWebRequest.Get($"{requestUrl}");
-            request.SetRequestHeader("Authorization", $"Bearer {userToken}");
-            request.timeout = 10;
-            var uniTask = request.SendWebRequest().ToUniTask();
-            return uniTask.AsTask();
+            try
+            {
+                throw new Exception("Test");
+                var requestUrl = $"{baseUrl}{path}";
+                var request = UnityWebRequest.Get($"{requestUrl}");
+                request.SetRequestHeader("Authorization", $"Bearer {userToken}");
+                request.timeout = 10;
+                var uniTask = request.SendWebRequest().ToUniTask();
+                return uniTask.AsTask();
+            }
+            catch (Exception e)
+            {
+                ToastSystem.Show("Failed to connect to server");
+            }
+
+            return null;
         }
     }
 }

@@ -88,12 +88,20 @@ namespace LoadingModule
         {
             if (!IsShowing) Show(task.LoadingType);
 
-            tasks.Add(task);
-            var result = await task.Task;
-            tasks.Remove(task);
+            try
+            {
+                tasks.Add(task);
+                var result = await task.Task;
+                tasks.Remove(task);
+                task.OnComplete?.Invoke(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                tasks.Remove(task);
+            }
 
             if (tasks.Count == 0) Hide();
-            task.OnComplete?.Invoke(result);
         }
 
         public Task LoadScene(SceneNameConstant.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
