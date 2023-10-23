@@ -29,11 +29,13 @@ namespace SpawnPoint
                     case TypeSpawnPoint.Player:
                         _playerSystem = Instantiate(playerSpawnPoint, data.position, Quaternion.identity, transform)
                             .Spawn();
+                        _playerSystem.Init();
                         break;
                     case TypeSpawnPoint.Enemy:
                         var enemySpawnPointObject =
                             Instantiate(enemySpawnPoint, data.position, Quaternion.identity, transform);
-                        enemySpawnPointObject.Spawn(enemySpawnPointObject.transform);
+                        var enemySystem = enemySpawnPointObject.Spawn(enemySpawnPointObject.transform);
+                        enemySystem.Init();
                         break;
                     case TypeSpawnPoint.None:
                     case TypeSpawnPoint.Boss:

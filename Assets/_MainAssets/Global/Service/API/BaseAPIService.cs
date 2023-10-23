@@ -26,7 +26,6 @@ namespace Service.API
         {
             try
             {
-                throw new Exception("Test");
                 var requestUrl = $"{baseUrl}{path}";
                 var request = UnityWebRequest.Get($"{requestUrl}");
                 request.SetRequestHeader("Authorization", $"Bearer {userToken}");
@@ -34,7 +33,7 @@ namespace Service.API
                 var uniTask = request.SendWebRequest().ToUniTask();
                 return uniTask.AsTask();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ToastSystem.Show("Failed to connect to server");
             }

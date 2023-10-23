@@ -3,18 +3,17 @@ using UnityEngine;
 
 namespace SpawnPoint
 {
-    public class PlayerSpawnPoint : BaseSpawnPoint
+    public class PlayerSpawnPoint : BaseSpawnPoint<PlayerSystem>
     {
-        public override GameObject Spawn(Transform position)
+        public override PlayerSystem Spawn(Transform position)
         {
-            // Dont Spawn if player already exist
             var playerSystem = FindObjectOfType<PlayerSystem>();
-            return playerSystem != null ? playerSystem.gameObject : base.Spawn(position);
+            return playerSystem != null ? playerSystem : base.Spawn(position);
         }
 
         public PlayerSystem Spawn()
         {
-            return Spawn(transform).GetComponent<PlayerSystem>();
+            return Spawn(transform);
         }
     }
 }

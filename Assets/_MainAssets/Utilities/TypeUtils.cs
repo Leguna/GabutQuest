@@ -1,6 +1,8 @@
+using System;
+
 namespace Utilities
 {
-    public class StringUtils
+    public class TypeUtils
     {
         public static string FormatTime(float timeInSecond)
         {
@@ -15,6 +17,11 @@ namespace Utilities
         {
             value = value.Trim('\uFEFF', '\u200B');
             return value;
+        }
+        
+        public static bool IsTypeNullable<T>()
+        {
+            return Nullable.GetUnderlyingType( typeof(T) )!=null;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Player
             if (TryGetComponent(out _movementAnimationController))
                 if (TryGetComponent(out _playerMovement))
                     _playerMovement.Init(_movementAnimationController);
-            if (TryGetComponent(out _playerDamageController)) _playerDamageController.Init();
+            if (TryGetComponent(out _playerDamageController)) _playerDamageController.Init(playerBaseData);
             if (TryGetComponent(out _playerCamera)) _playerCamera.Init();
         }
     }

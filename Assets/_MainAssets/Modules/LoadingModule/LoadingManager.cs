@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Constant;
 using Cysharp.Threading.Tasks;
 using EventStruct;
+using ToastModal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
@@ -77,7 +78,7 @@ namespace LoadingModule
             }
             catch (Exception e)
             {
-                Debug.Log(e);
+                ToastSystem.Show("Failed to do task " + task.Message);
                 tasks.Remove(task);
             }
 
@@ -95,9 +96,9 @@ namespace LoadingModule
                 tasks.Remove(task);
                 task.OnComplete?.Invoke(result);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.Log(e);
+                ToastSystem.Show("Failed to do task " + task.Message);
                 tasks.Remove(task);
             }
 

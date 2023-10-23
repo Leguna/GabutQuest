@@ -2,11 +2,11 @@
 
 namespace SpawnPoint
 {
-    public class BaseSpawnPoint : MonoBehaviour, ISpawnPoint
+    public class BaseSpawnPoint<T> : MonoBehaviour, ISpawnPoint<T> where T : Object
     {
-        [SerializeField] private GameObject spawnedGameObject;
+        [SerializeField] protected T spawnedGameObject;
 
-        public virtual GameObject Spawn(Transform targetTransform)
+        public virtual T Spawn(Transform targetTransform)
         {
             return Instantiate(spawnedGameObject, targetTransform.position, targetTransform.rotation, transform);
         }

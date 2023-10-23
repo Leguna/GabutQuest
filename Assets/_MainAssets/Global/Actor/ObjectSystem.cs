@@ -6,13 +6,13 @@ namespace DamageSystem
     public class ObjectSystem : MonoBehaviour, IDamageable, IHealth
     {
         public int Health { get; set; }
-        public int MaxHealth { get; set; }
-        public Action OnDeathEvent { get; set; }
+        public int MaxHealth { get; protected set; }
+        protected Action OnDeathEvent { get; set; }
 
-        public virtual void Init(int maxHealth)
+        public virtual void Init()
         {
-            MaxHealth = maxHealth;
-            Health = maxHealth;
+            Health = 1;
+            MaxHealth = 1;
         }
 
         public virtual void TakeDamage(int damage)
@@ -20,7 +20,6 @@ namespace DamageSystem
             Health -= damage;
             if (Health <= 0) Die();
         }
-
 
         public virtual void Die()
         {

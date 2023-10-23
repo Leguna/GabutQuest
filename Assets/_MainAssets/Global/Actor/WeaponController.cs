@@ -10,10 +10,10 @@ namespace DamageSystem
         [SerializeField] private GameObject weaponHandler;
         [SerializeField] private Animator animator;
         [SerializeField] private Collider2D weaponCollider;
+        private static readonly int Attacking = Animator.StringToHash("Attacking");
         public int Damage { get; private set; }
         public float Delay { get; set; }
         public float LastAttackTime { get; private set; }
-        private static readonly int AttackKey = Animator.StringToHash("Attack");
 
         public void Init(int damage)
         {
@@ -26,7 +26,7 @@ namespace DamageSystem
         {
             LastAttackTime = Time.time;
             weaponCollider.enabled = true;
-            animator.SetTrigger(AttackKey);
+            animator.SetTrigger(Attacking);
         }
 
         private void FinishAnimation()

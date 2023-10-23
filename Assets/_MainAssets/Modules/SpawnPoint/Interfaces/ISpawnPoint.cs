@@ -2,8 +2,8 @@
 
 namespace SpawnPoint
 {
-    public interface ISpawnPoint
+    public interface ISpawnPoint<out T>
     {
-        GameObject Spawn(Transform targetTransform);
+        T Spawn(Transform targetTransform);
     }
 }

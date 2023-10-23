@@ -16,8 +16,7 @@ public class FlowGame : MonoBehaviour
     public void Init()
     {
         if (initiated) return;
-        var playerSystem = spawner.Init();
-        playerSystem.Init();
+        spawner.Init();
         initiated = true;
 
         _gameState = GameState.Playing;

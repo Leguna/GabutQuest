@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace DamageSystem
@@ -11,10 +12,11 @@ namespace DamageSystem
 
         [HideInInspector] public bool canAttack;
 
-        public void Init()
+        public void Init(PlayerBaseData playerBaseData)
         {
             healthController = new HealthController(100);
             healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
+            weaponController.Init(playerBaseData.damageStats.attack);
             canAttack = true;
         }
 

@@ -171,3 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1da795864b34b05b37504228f14133c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actorBaseData: {fileID: 11400000, guid: a40192631788db54bbe356d9d5331bb8, type: 2}

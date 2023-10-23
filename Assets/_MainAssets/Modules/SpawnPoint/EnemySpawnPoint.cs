@@ -1,6 +1,9 @@
-﻿namespace SpawnPoint
+﻿using DamageSystem;
+using UnityEngine;
+
+namespace SpawnPoint
 {
-    public class EnemySpawnPoint : BaseSpawnPoint
+    public class EnemySpawnPoint : BaseSpawnPoint<EnemySystem>
     {
     }
 }
