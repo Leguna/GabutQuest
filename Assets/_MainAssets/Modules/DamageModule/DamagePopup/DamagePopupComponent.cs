@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-namespace DamageSystem.DamagePopup
+namespace DamageModule.DamagePopup
 {
     public class DamagePopupComponent : MonoBehaviour
     {

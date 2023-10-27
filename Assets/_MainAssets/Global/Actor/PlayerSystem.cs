@@ -1,10 +1,9 @@
-﻿using DamageSystem;
-using SaveLoad;
+﻿using SaveLoad;
 using TwoDPlatformer;
 using TwoDPlatformer.TwoDPlatformMovement.Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Actor
 {
     public class PlayerSystem : MonoBehaviour
     {

@@ -1,7 +1,7 @@
-﻿using DamageSystem;
-using UnityEngine;
+﻿using Actor;
+using SpawnPoint;
 
-namespace SpawnPoint
+namespace Spawn
 {
     public class EnemySpawnPoint : BaseSpawnPoint<EnemySystem>
     {

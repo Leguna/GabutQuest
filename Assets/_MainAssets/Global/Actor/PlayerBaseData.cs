@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Player
+namespace Actor
 {
     [CreateAssetMenu(fileName = "PlayerBaseData", menuName = "ActorData/PlayerData", order = 1)]
     [Serializable]

@@ -1,8 +1,10 @@
 ﻿using System;
-using Player;
+using Actor;
+using DamageModule;
+using SpawnPoint;
 using UnityEngine;
 
-namespace SpawnPoint
+namespace Spawn
 {
     public class Spawner : MonoBehaviour
     {
@@ -11,13 +13,14 @@ namespace SpawnPoint
         [SerializeField] private PlayerSpawnPoint playerSpawnPoint;
 
         private PlayerSystem _playerSystem;
+        private DamageSystem _damageSystem;
 
-        public PlayerSystem Init()
+        public void Init(DamageSystem damageSystem)
         {
+            _damageSystem = damageSystem;
             TryGetComponent(out spawnPointTilemap);
             spawnPointTilemap.Init();
             Spawn();
-            return _playerSystem;
         }
 
         private void Spawn()
@@ -35,7 +38,7 @@ namespace SpawnPoint
                         var enemySpawnPointObject =
                             Instantiate(enemySpawnPoint, data.position, Quaternion.identity, transform);
                         var enemySystem = enemySpawnPointObject.Spawn(enemySpawnPointObject.transform);
-                        enemySystem.Init();
+                        enemySystem.Init(_damageSystem);
                         break;
                     case TypeSpawnPoint.None:
                     case TypeSpawnPoint.Boss:

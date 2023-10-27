@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Constant;
 using Cysharp.Threading.Tasks;
 using ToastModal;
 using UnityEngine.Networking;
+using VContainer;
 
 namespace Service.API
 {
@@ -11,10 +13,14 @@ namespace Service.API
         private readonly string baseUrl;
         private string userToken;
 
-        public BaseAPIService(string url, string token)
+        [Inject]
+        public BaseAPIService()
         {
-            baseUrl = url ?? "";
-            userToken = token ?? "";
+#if UNITY_EDITOR
+            baseUrl = GameConstant.BaseUrlDev;
+#else
+            baseUrl = GameConstant.BaseUrl;
+#endif
         }
 
         public void SetToken(string token)

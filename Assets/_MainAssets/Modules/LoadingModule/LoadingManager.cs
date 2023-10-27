@@ -76,7 +76,7 @@ namespace LoadingModule
 
                 task.OnComplete?.Invoke();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ToastSystem.Show("Failed to do task " + task.Message);
                 tasks.Remove(task);

@@ -1,10 +1,10 @@
 ﻿using System;
-using DamageSystem;
+using DamageModule;
 using Leveling;
 using UnityEngine;
 using Utilities;
 
-namespace Player
+namespace Actor
 {
     [CreateAssetMenu(fileName = "ActorBaseData", menuName = "ActorData/Base", order = 1)]
     [Serializable]

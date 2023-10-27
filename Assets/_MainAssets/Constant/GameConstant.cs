@@ -12,6 +12,9 @@
 
         // Tag
         public const string BoundingTag = "Bounding";
-        public const string BaseUrl = "http://127.0.0.1:5001/gabutquest/us-central1/api/v1/";
+
+        // Endpoint URL and Path API
+        public const string BaseUrl = "https://us-central1-gabutquest.cloudfunctions.net/api/v1/";
+        public const string BaseUrlDev = "http://127.0.0.1:5001/gabutquest/us-central1/api/v1/";
     }
 }

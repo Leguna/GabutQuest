@@ -1,4 +1,4 @@
-﻿using Player;
+﻿using Actor;
 using UnityEngine;
 
 namespace SpawnPoint

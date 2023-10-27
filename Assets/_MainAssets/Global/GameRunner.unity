@@ -201,63 +201,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!1001 &1580090041
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2780809460903357438, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_Name
-      value: Particle Cursor
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7685595450960864671, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
 --- !u!1 &2001238490
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +214,7 @@ GameObject:
   - component: {fileID: 2001238494}
   - component: {fileID: 2001238495}
   - component: {fileID: 2001238496}
+  - component: {fileID: 2001238497}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -305,8 +249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8c04057546aad43808900825b71e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorTexture: {fileID: 2800000, guid: 9d6ccc09205e67d4fabde787f92b348f, type: 3}
-  particleCursor: {fileID: 0}
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
+  cursorComponent: {fileID: 2001238497}
 --- !u!114 &2001238494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,10 +298,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toast: {fileID: 5435249085204013282, guid: 5baef14a8828e834a965160b711586ea, type: 3}
   toastPool: {fileID: -6908644940449497870, guid: 655320a41d4fa064789200365dff401b, type: 3}
+--- !u!114 &2001238497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001238490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5993c087a0496fbb91d6039214c3e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTexture: {fileID: 2800000, guid: 9d6ccc09205e67d4fabde787f92b348f, type: 3}
+  particleCursor: {fileID: 3149792446029044478, guid: e30da36fe7f678942b4c8c1d14e95dcd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 760465912}
   - {fileID: 2001238491}
-  - {fileID: 1580090041}

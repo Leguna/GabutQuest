@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DamageSystem
+namespace DamageModule
 {
     [Serializable]
     public class DamageStatsSo

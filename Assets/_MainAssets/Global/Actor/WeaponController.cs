@@ -1,8 +1,8 @@
 ﻿using System;
+using DamageModule;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace DamageSystem
+namespace Actor
 {
     [Serializable]
     public class WeaponController : MonoBehaviour, IWeaponController

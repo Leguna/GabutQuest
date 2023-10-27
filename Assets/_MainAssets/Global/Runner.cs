@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Actor;
 using Constant;
 using CustomCursor;
 using Cysharp.Threading.Tasks;
@@ -6,38 +7,39 @@ using EventStruct;
 using Firebase.Auth;
 using LoadingModule;
 using LoginModule;
-using Player;
 using SaveLoad;
 using Service.API;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using Utilities;
+using VContainer;
+using VContainer.Unity;
 
-public class Runner : SingletonMonoBehaviour<Runner>
+public class Runner : LifetimeScope
 {
     private LoadingManager LoadingManager { get; set; }
-    public LoginController LoginController { get; private set; }
-    private CursorManager _cursor;
-
-    [SerializeField] private Texture2D cursorTexture;
-    [SerializeField] private ParticleSystem particleCursor;
-
+    private CursorSystem _cursor;
+    [SerializeField] private CursorComponent cursorComponent;
     private BaseAPIService _baseApiService;
 
-    private async void Start()
+    protected override void Configure(IContainerBuilder builder)
     {
+        builder.Register<BaseAPIService>(Lifetime.Singleton);
+        builder.Register<CursorSystem>(Lifetime.Singleton);
+        builder.RegisterComponent(cursorComponent);
+        builder.RegisterBuildCallback(InjectCallback);
+    }
+
+    private async void InjectCallback(IObjectResolver container)
+    {
+        _baseApiService = container.Resolve<BaseAPIService>();
+        _cursor = container.Resolve<CursorSystem>();
         await Init();
     }
 
+
     private async Task Init()
     {
-        // Init API Service
-        _baseApiService = new BaseAPIService(GameConstant.BaseUrl, "");
-
-        // Set Cursor
-        _cursor = gameObject.AddComponent<CursorManager>();
-        _cursor.Init(cursorTexture);
         _cursor.SetVisible(false);
 
         // Load Loading Scene
@@ -52,7 +54,6 @@ public class Runner : SingletonMonoBehaviour<Runner>
 
         _cursor.SetVisible(true);
 
-        // Search for the LoginController in the Login scene
         var loginController = FindObjectOfType<LoginController>();
         loginController.Init(StartGame, OnSignedIn);
     }
@@ -73,6 +74,7 @@ public class Runner : SingletonMonoBehaviour<Runner>
 
     private async void OnDataPlayerGet(UnityWebRequest requestData)
     {
+        // _cursor.SetIsForceLocked(true);
         var playerStats = ScriptableObject.CreateInstance<PlayerBaseData>();
         playerStats.RestoreState(requestData.downloadHandler.text);
         SaveLoadSystem.Save(playerStats);

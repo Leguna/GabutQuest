@@ -1,4 +1,4 @@
-﻿namespace DamageSystem
+﻿namespace DamageModule
 {
     public interface IWeaponController : IWeapon
     {

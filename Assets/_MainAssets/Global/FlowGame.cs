@@ -1,9 +1,12 @@
+using DamageModule;
+using Spawn;
 using SpawnPoint;
 using UnityEngine;
 
 public class FlowGame : MonoBehaviour
 {
     [SerializeField] private Spawner spawner;
+    private DamageSystem damageSystem;
 
     private GameState _gameState;
     private bool initiated;
@@ -16,7 +19,9 @@ public class FlowGame : MonoBehaviour
     public void Init()
     {
         if (initiated) return;
-        spawner.Init();
+        damageSystem = FindObjectOfType<DamageSystem>();
+        damageSystem.Init();
+        spawner.Init(damageSystem);
         initiated = true;
 
         _gameState = GameState.Playing;

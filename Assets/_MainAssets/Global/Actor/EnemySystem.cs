@@ -1,30 +1,38 @@
-﻿using Player;
+﻿using DamageModule;
 using UnityEngine;
 
-namespace DamageSystem
+namespace Actor
 {
-    public class EnemySystem : ObjectSystem
+    public class EnemySystem : MonoBehaviour
     {
         [SerializeField] private ActorBaseData actorBaseData;
+        private HealthController healthController;
+        private DamageSystem damageSystem;
 
-        public override void Init()
+        public void Init(DamageSystem newDamageSystem)
         {
-            base.Init();
-            Health = actorBaseData.damageStats.currentHealth;
-            MaxHealth = actorBaseData.damageStats.maxHealth;
-            OnDeathEvent += OnDeath;
+            damageSystem = newDamageSystem;
+            healthController = gameObject.AddComponent<HealthController>();
+            healthController.Init(actorBaseData.damageStats.maxHealth, Color.red);
+            healthController.SetListener(TakeDamage, OnHealTaken, Die);
+            damageSystem.ShowHealthBar(healthController, transform);
         }
 
-        private void OnDeath()
+        private void OnHealTaken(int healTakenValue)
+        {
+            healthController.Heal(healTakenValue);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            damageSystem.ShowDamagePopup(damage, transform.position, Vector2.zero);
+            Debug.Log($"EnemySystem.TakeDamage: {damage}");
+        }
+
+        public void Die()
         {
             Debug.Log("EnemySystem.OnDeath");
-            Destroy(gameObject);
-        }
-
-        public override void TakeDamage(int damage)
-        {
-            base.TakeDamage(damage);
-            Debug.Log($"EnemySystem.TakeDamage: {damage}");
+            gameObject.SetActive(false);
         }
     }
 }

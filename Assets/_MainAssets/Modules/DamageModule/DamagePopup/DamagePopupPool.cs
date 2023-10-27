@@ -1,7 +1,7 @@
 using UnityEngine;
 using Utilities;
 
-namespace DamageSystem.DamagePopup
+namespace DamageModule.DamagePopup
 {
     public class DamagePopupPool : ObjectPoolingBase<DamagePopupComponent>
     {

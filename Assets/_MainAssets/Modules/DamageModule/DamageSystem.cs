@@ -1,9 +1,8 @@
-using DamageSystem.DamagePopup;
-using DamageSystem.HealthBar;
-using Unity.VisualScripting;
+using DamageModule.DamagePopup;
+using DamageModule.HealthBar;
 using UnityEngine;
 
-namespace DamageSystem
+namespace DamageModule
 {
     public class DamageSystem : MonoBehaviour
     {
@@ -17,13 +16,13 @@ namespace DamageSystem
         {
             damagePopupPoolPrefab = Instantiate(damagePopupPoolPrefab, transform);
             damagePopupPoolPrefab.Init(damagePopupPrefab);
-            healthBarPoolComponent = transform.AddComponent<HealthBarPool>();
+            healthBarPoolComponent = transform.gameObject.AddComponent<HealthBarPool>();
             healthBarPoolComponent.Init(healthBarPrefab);
         }
 
-        public void ShowHealthBar(HealthComponent healthComponent, Transform position, Vector2 offset = default)
+        public void ShowHealthBar(IHealthBar healthBarData, Transform position, Vector2 offset = default)
         {
-            healthBarPoolComponent.GetObject(healthComponent, position, offset);
+            healthBarPoolComponent.GetObject(healthBarData, position, offset);
         }
 
         public void ShowDamagePopup(int damage, Vector3 position, Vector2 offset)

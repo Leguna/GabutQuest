@@ -1,8 +1,8 @@
-﻿using Player;
+﻿using DamageModule;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace DamageSystem
+namespace Actor
 {
     public class PlayerDamageController : MonoBehaviour
     {
@@ -14,7 +14,8 @@ namespace DamageSystem
 
         public void Init(PlayerBaseData playerBaseData)
         {
-            healthController = new HealthController(100);
+            healthController = gameObject.AddComponent<HealthController>();
+            healthController.Init(playerBaseData.damageStats.maxHealth, Color.green);
             healthController.SetListener(OnDamageTaken, OnHealTaken, OnDeath);
             weaponController.Init(playerBaseData.damageStats.attack);
             canAttack = true;
