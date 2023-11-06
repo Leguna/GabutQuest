@@ -6,10 +6,10 @@ using UnityEngine;
 public class FlowGame : MonoBehaviour
 {
     [SerializeField] private Spawner spawner;
-    private DamageSystem damageSystem;
+    private DamageSystem _damageSystem;
 
     private GameState _gameState;
-    private bool initiated;
+    private bool _initiated;
 
     private void Awake()
     {
@@ -18,11 +18,11 @@ public class FlowGame : MonoBehaviour
 
     public void Init()
     {
-        if (initiated) return;
-        damageSystem = FindObjectOfType<DamageSystem>();
-        damageSystem.Init();
-        spawner.Init(damageSystem);
-        initiated = true;
+        if (_initiated) return;
+        _damageSystem = FindObjectOfType<DamageSystem>();
+        _damageSystem.Init();
+        spawner.Init(_damageSystem);
+        _initiated = true;
 
         _gameState = GameState.Playing;
         UpdateState();

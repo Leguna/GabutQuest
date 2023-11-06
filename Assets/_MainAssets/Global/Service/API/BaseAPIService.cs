@@ -17,9 +17,9 @@ namespace Service.API
         public BaseAPIService()
         {
 #if UNITY_EDITOR
-            baseUrl = GameConstant.BaseUrlDev;
+            baseUrl = GameConst.BaseUrlDev;
 #else
-            baseUrl = GameConstant.BaseUrl;
+            baseUrl = GameConst.BaseUrl;
 #endif
         }
 

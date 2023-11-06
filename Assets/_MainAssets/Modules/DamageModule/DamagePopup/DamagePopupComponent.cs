@@ -22,11 +22,10 @@ namespace DamageModule.DamagePopup
 
         public void ShowDamage(int damage, Vector2 targetPos, Action onFinish, Vector2 offset = default)
         {
-            if (Camera.main != null) targetPos = Camera.main.WorldToScreenPoint(targetPos);
+            if (Camera.main != null) targetPos = Camera.main.WorldToScreenPoint(targetPos + offset);
 
             targetPos.x -= (float)Screen.width / 2;
             targetPos.y -= (float)Screen.height / 2;
-            targetPos += offset;
             targetPos /= canvas.scaleFactor;
 
             damageText.text = damage.ToString();

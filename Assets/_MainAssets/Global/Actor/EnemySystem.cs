@@ -25,7 +25,7 @@ namespace Actor
 
         public void TakeDamage(int damage)
         {
-            damageSystem.ShowDamagePopup(damage, transform.position, Vector2.zero);
+            damageSystem.ShowDamagePopup(damage, transform.position, Vector2.up);
             Debug.Log($"EnemySystem.TakeDamage: {damage}");
         }
 

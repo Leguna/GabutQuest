@@ -10,19 +10,19 @@ namespace DamageModule
         [SerializeField] private DamagePopupPool damagePopupPoolPrefab;
 
         [SerializeField] private HealthBarComponent healthBarPrefab;
-        private HealthBarPool healthBarPoolComponent;
+        private HealthBarPool _healthBarPoolComponent;
 
         public void Init()
         {
             damagePopupPoolPrefab = Instantiate(damagePopupPoolPrefab, transform);
             damagePopupPoolPrefab.Init(damagePopupPrefab);
-            healthBarPoolComponent = transform.gameObject.AddComponent<HealthBarPool>();
-            healthBarPoolComponent.Init(healthBarPrefab);
+            _healthBarPoolComponent = transform.gameObject.AddComponent<HealthBarPool>();
+            _healthBarPoolComponent.Init(healthBarPrefab);
         }
 
         public void ShowHealthBar(IHealthBar healthBarData, Transform position, Vector2 offset = default)
         {
-            healthBarPoolComponent.GetObject(healthBarData, position, offset);
+            _healthBarPoolComponent.GetObject(healthBarData, position, offset);
         }
 
         public void ShowDamagePopup(int damage, Vector3 position, Vector2 offset)
@@ -32,12 +32,7 @@ namespace DamageModule
 
         public void HideHealthBar(HealthBarComponent healthBarComponent)
         {
-            healthBarPoolComponent.ReturnObject(healthBarComponent);
-        }
-
-        public void HideDamagePopup(DamagePopupComponent damagePopupComponent)
-        {
-            damagePopupPoolPrefab.ReturnObject(damagePopupComponent);
+            _healthBarPoolComponent.ReturnObject(healthBarComponent);
         }
     }
 }

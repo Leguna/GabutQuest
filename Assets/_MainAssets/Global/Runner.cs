@@ -43,14 +43,14 @@ public class Runner : LifetimeScope
         _cursor.SetVisible(false);
 
         // Load Loading Scene
-        await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.LoadingScreen, LoadSceneMode.Additive);
+        await SceneManager.LoadSceneAsync((int)SceneConst.SceneName.LoadingScreen, LoadSceneMode.Additive);
         LoadingManager = FindObjectOfType<LoadingManager>();
 
         // Load Login Scene
-        await SceneManager.LoadSceneAsync((int)SceneNameConstant.SceneName.SplashScreen, LoadSceneMode.Additive);
-        await Task.Delay(GameConstant.SplashScreenDelayInSecond * 2000);
-        await LoadingManager.LoadScene(SceneNameConstant.SceneName.LoginScreen, LoadingManager.LoadingType.None);
-        await LoadingManager.UnloadScene(SceneNameConstant.SceneName.SplashScreen, LoadingManager.LoadingType.None);
+        await SceneManager.LoadSceneAsync((int)SceneConst.SceneName.SplashScreen, LoadSceneMode.Additive);
+        await Task.Delay(GameConst.SplashScreenDelayInSecond * 2000);
+        await LoadingManager.LoadScene(SceneConst.SceneName.LoginScreen, LoadingManager.LoadingType.None);
+        await LoadingManager.UnloadScene(SceneConst.SceneName.SplashScreen, LoadingManager.LoadingType.None);
 
         _cursor.SetVisible(true);
 
@@ -79,9 +79,9 @@ public class Runner : LifetimeScope
         playerStats.RestoreState(requestData.downloadHandler.text);
         SaveLoadSystem.Save(playerStats);
 
-        await LoadingManager.UnloadScene(SceneNameConstant.SceneName.LoginScreen);
-        await LoadingManager.LoadScene(SceneNameConstant.SceneName.GameScreen);
-        await LoadingManager.LoadScene(SceneNameConstant.SceneName.DamageSystemScene);
+        await LoadingManager.UnloadScene(SceneConst.SceneName.LoginScreen);
+        await LoadingManager.LoadScene(SceneConst.SceneName.GameScreen);
+        await LoadingManager.LoadScene(SceneConst.SceneName.DamageSystemScene);
 
         var gameFlow = FindObjectOfType<FlowGame>();
         gameFlow.Init();

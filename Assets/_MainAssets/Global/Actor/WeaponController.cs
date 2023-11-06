@@ -25,13 +25,22 @@ namespace Actor
         public void FireAttack()
         {
             LastAttackTime = Time.time;
-            weaponCollider.enabled = true;
             animator.SetTrigger(Attacking);
+        }
+        
+        public void ActivateWeapon()
+        {
+            weaponCollider.enabled = true;
+        }
+
+        public void DeactivateWeapon()
+        {
+            weaponCollider.enabled = false;
         }
 
         private void FinishAnimation()
         {
-            weaponCollider.enabled = false;
+            animator.ResetTrigger(Attacking);
         }
 
 

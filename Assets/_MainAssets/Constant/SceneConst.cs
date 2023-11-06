@@ -1,6 +1,6 @@
 ﻿namespace Constant
 {
-    public static class SceneNameConstant
+    public static class SceneConst
     {
         // List of scenes in the game indexed by SceneName
         public enum SceneName

@@ -105,7 +105,7 @@ namespace LoadingModule
             if (tasks.Count == 0) Hide();
         }
 
-        public Task LoadScene(SceneNameConstant.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
+        public Task LoadScene(SceneConst.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
         {
             var task = SceneManager.LoadSceneAsync((int)sceneName, LoadSceneMode.Additive).ToUniTask().AsTask();
             AddTask(new LoadingEventData(
@@ -116,7 +116,7 @@ namespace LoadingModule
             return task;
         }
 
-        public Task UnloadScene(SceneNameConstant.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
+        public Task UnloadScene(SceneConst.SceneName sceneName, LoadingType loadingType = LoadingType.FullScreen)
         {
             var task = SceneManager.UnloadSceneAsync((int)sceneName).ToUniTask().AsTask();
             AddTask(new LoadingEventData

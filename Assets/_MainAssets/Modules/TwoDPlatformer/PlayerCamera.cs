@@ -18,7 +18,7 @@ namespace TwoDPlatformer
         private void SearchBounding()
         {
             virtualCameraBase.TryGetComponent(out cinemachineConfiner2D);
-            cinemachineConfiner2D.m_BoundingShape2D = GameObject.Find(Constant.GameConstant.CameraBound).GetComponent<Collider2D>();
+            cinemachineConfiner2D.m_BoundingShape2D = GameObject.Find(Constant.GameConst.CameraBound).GetComponent<Collider2D>();
         }
     }
 }
